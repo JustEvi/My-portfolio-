@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import PageLayout from "@/components/layout";
 import ContactPage from "@/components/pages/contact";
 
 export const metadata: Metadata = {
@@ -9,8 +8,6 @@ export const metadata: Metadata = {
 
 export default function Contact() {
   return (
-    <PageLayout>
-      <ContactPage />
-    </PageLayout>
+    <ContactPage />
   );
 }

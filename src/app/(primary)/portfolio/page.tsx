@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import PageLayout from "@/components/layout";
 import PortfolioPage from "@/components/pages/portfolio";
 
 export const metadata: Metadata = {
@@ -9,8 +8,6 @@ export const metadata: Metadata = {
 
 export default function Portfolio() {
   return (
-    <PageLayout>
-      <PortfolioPage />
-    </PageLayout>
+    <PortfolioPage />
   );
 }

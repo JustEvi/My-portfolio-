@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import PageLayout from "@/components/layout";
 import AboutPage from "@/components/pages/about";
 import { createClient } from "@/lib/supabase/server";
 
@@ -33,8 +32,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function About() {
   return (
-    <PageLayout>
-      <AboutPage />
-    </PageLayout>
+    <AboutPage />
   );
 }
