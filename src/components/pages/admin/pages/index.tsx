@@ -7,10 +7,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
-import { Save, Camera } from 'lucide-react';
-import { CldUploadWidget } from 'next-cloudinary';
+import { Save } from 'lucide-react';
 import Image from 'next/image';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { FileUpload } from '@/components/ui/custom/file-upload';
 
 export default function AdminPagesPage() {
   const [content, setContent] = useState<Record<string, PageContent>>({});
@@ -181,39 +181,13 @@ export default function AdminPagesPage() {
                 </div>
 
                 <div>
-                  <label className="text-xs uppercase tracking-widest text-muted-foreground block mb-2">Hero Image</label>
-                  <div className="relative group w-full aspect-4/5 md:aspect-square bg-muted border border-border rounded-lg overflow-hidden flex items-center justify-center">
-                    {content['home_hero_image']?.image_url ? (
-                      <Image src={content['home_hero_image'].image_url} alt="Hero" fill className="object-cover" />
-                    ) : (
-                      <span className="text-xs text-muted-foreground uppercase tracking-wider text-center px-4">No Image Set</span>
-                    )}
-                    
-                    <CldUploadWidget 
-                      uploadPreset="evie_portfolio"
-                      onSuccess={(result: any) => {
-                        handleImageChange('home', 'hero_image', result.info.secure_url);
-                      }}
-                    >
-                      {({ open }) => (
-                        <div 
-                          className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer"
-                          onClick={() => open()}
-                        >
-                          <Camera size={24} className="text-foreground mb-2" />
-                          <span className="text-[10px] uppercase font-medium tracking-widest">Change Image</span>
-                        </div>
-                      )}
-                    </CldUploadWidget>
-                 </div>
-                 {content['home_hero_image']?.image_url && (
-                   <button 
-                     className="mt-2 text-[10px] uppercase tracking-widest text-destructive hover:underline"
-                     onClick={() => handleImageChange('home', 'hero_image', null)}
-                   >
-                     Remove Image
-                   </button>
-                 )}
+                  <FileUpload 
+                    label="Upload Hero Image"
+                    defaultValue={content['home_hero_image']?.image_url || undefined}
+                    onUploadSuccess={(result) => handleImageChange('home', 'hero_image', result.secure_url)}
+                    onRemove={() => handleImageChange('home', 'hero_image', null)}
+                    className="w-full"
+                  />
                 </div>
              </div>
           </div>
@@ -246,39 +220,13 @@ export default function AdminPagesPage() {
                 </div>
 
                 <div>
-                  <label className="text-xs uppercase tracking-widest text-muted-foreground block mb-2">Profile Image</label>
-                  <div className="relative group w-full aspect-4/5 md:aspect-square bg-muted border border-border rounded-lg overflow-hidden flex items-center justify-center">
-                    {content['about_about_image']?.image_url ? (
-                      <Image src={content['about_about_image'].image_url} alt="Profile" fill className="object-cover" />
-                    ) : (
-                      <span className="text-xs text-muted-foreground uppercase tracking-wider text-center px-4">No Image Set</span>
-                    )}
-                    
-                    <CldUploadWidget 
-                      uploadPreset="evie_portfolio"
-                      onSuccess={(result: any) => {
-                        handleImageChange('about', 'about_image', result.info.secure_url);
-                      }}
-                    >
-                      {({ open }) => (
-                        <div 
-                          className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer"
-                          onClick={() => open()}
-                        >
-                          <Camera size={24} className="text-foreground mb-2" />
-                          <span className="text-[10px] uppercase font-medium tracking-widest">Change Image</span>
-                        </div>
-                      )}
-                    </CldUploadWidget>
-                 </div>
-                 {content['about_about_image']?.image_url && (
-                   <button 
-                     className="mt-2 text-[10px] uppercase tracking-widest text-destructive hover:underline"
-                     onClick={() => handleImageChange('about', 'about_image', null)}
-                   >
-                     Remove Image
-                   </button>
-                 )}
+                  <FileUpload 
+                    label="Upload Profile Image"
+                    defaultValue={content['about_about_image']?.image_url || undefined}
+                    onUploadSuccess={(result) => handleImageChange('about', 'about_image', result.secure_url)}
+                    onRemove={() => handleImageChange('about', 'about_image', null)}
+                    className="w-full"
+                  />
                 </div>
              </div>
           </div>

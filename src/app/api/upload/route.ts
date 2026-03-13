@@ -13,25 +13,40 @@ export async function POST(request: Request) {
     const supabase = await createClient();
     const { data: { session } } = await supabase.auth.getSession();
 
-    // Verify authentication status for security
     if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await request.json();
-    const { paramsToSign } = body;
-    
-    // Create signature using the passed parameters and the Cloudinary secret
-    const signature = cloudinary.utils.api_sign_request(
-      paramsToSign,
-      process.env.CLOUDINARY_API_SECRET!
-    );
+    const formData = await request.formData();
+    const file = formData.get("file") as File;
 
-    return NextResponse.json({ signature });
-  } catch (error) {
-    console.error("Cloudinary signature error:", error);
+    if (!file) {
+      return NextResponse.json({ error: "No file provided" }, { status: 400 });
+    }
+
+    // Convert file to buffer for cloudinary
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+
+    // Upload to Cloudinary using a promise to handle the stream-like behavior or buffer
+    const uploadResult = await new Promise((resolve, reject) => {
+      cloudinary.uploader.upload_stream({
+        resource_type: "auto",
+        folder: "evie_portfolio",
+      }, (error, result) => {
+        if (error) reject(error);
+        else resolve(result);
+      }).end(buffer);
+    }) as any;
+
+    return NextResponse.json({
+      secure_url: uploadResult.secure_url,
+      public_id: uploadResult.public_id,
+    });
+  } catch (error: any) {
+    console.error("Cloudinary upload error:", error);
     return NextResponse.json(
-      { error: "Failed to generate signature" },
+      { error: error.message || "Failed to upload image" },
       { status: 500 }
     );
   }

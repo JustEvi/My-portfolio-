@@ -4,10 +4,10 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Link, ArrowLeft, Image as ImageIcon, Plus, X } from 'lucide-react';
+import { Link, ArrowLeft, Plus, X } from 'lucide-react';
 import NextLink from 'next/link';
-import { CldUploadWidget } from 'next-cloudinary';
 import { createClient } from '@/lib/supabase/client';
+import { FileUpload } from '@/components/ui/custom/file-upload';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -95,11 +95,10 @@ export default function AdminNewProjectPage() {
     }
   };
 
-  const handleScreengrabUpload = (result: any) => {
-    const info = result.info;
+  const handleScreengrabUpload = (result: { secure_url: string; public_id: string }) => {
     setScreengrabs(prev => [...prev, {
-      url: info.secure_url,
-      public_id: info.public_id,
+      url: result.secure_url,
+      public_id: result.public_id,
       caption: ''
     }]);
   };
@@ -199,50 +198,13 @@ export default function AdminNewProjectPage() {
           
           <div className="space-y-4">
             <Label className="text-xs uppercase tracking-widest text-muted-foreground">Cover Image</Label>
-            {coverImage ? (
-              <div className="relative w-full aspect-video md:aspect-21/9 rounded-sm overflow-hidden border border-border bg-muted group">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={coverImage.url} alt="Cover preview" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <Button 
-                    type="button" 
-                    variant="destructive" 
-                    size="sm"
-                    onClick={async () => {
-                      try {
-                        await fetch('/api/delete-image', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ public_id: coverImage.public_id })
-                        });
-                        setCoverImage(null);
-                      } catch (e) {
-                         console.error(e);
-                      }
-                    }}
-                  >
-                    Remove Image
-                  </Button>
-                </div>
-              </div>
-            ) : (
-              <CldUploadWidget
-                signatureEndpoint="/api/upload"
-                onSuccess={(result: any) => {
-                  setCoverImage({
-                    url: result.info.secure_url,
-                    public_id: result.info.public_id
-                  });
-                }}
-              >
-                {({ open }) => (
-                  <button type="button" onClick={() => open()} className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-border rounded-sm hover:bg-muted hover:border-primary-deep transition-colors text-muted-foreground hover:text-primary-deep gap-2">
-                    <ImageIcon size={24} />
-                    <span className="text-sm">Click to upload cover image</span>
-                  </button>
-                )}
-              </CldUploadWidget>
-            )}
+            <FileUpload 
+              label="Upload Cover Image"
+              defaultValue={coverImage?.url || undefined}
+              onUploadSuccess={(result) => setCoverImage({ url: result.secure_url, public_id: result.public_id })}
+              onRemove={() => setCoverImage(null)}
+              className="w-full"
+            />
           </div>
 
           <div className="space-y-4 pt-6">
@@ -283,17 +245,11 @@ export default function AdminNewProjectPage() {
                 </div>
               ))}
 
-              <CldUploadWidget
-                signatureEndpoint="/api/upload"
-                onSuccess={handleScreengrabUpload}
-              >
-                {({ open }) => (
-                  <button type="button" onClick={() => open()} className="flex flex-col items-center justify-center w-full aspect-video border-2 border-dashed border-border rounded-sm hover:bg-muted hover:border-primary-deep transition-colors text-muted-foreground hover:text-primary-deep gap-2">
-                    <Plus size={24} />
-                    <span className="text-sm">Add Image</span>
-                  </button>
-                )}
-              </CldUploadWidget>
+              <FileUpload 
+                label="Add Screenshot"
+                onUploadSuccess={handleScreengrabUpload}
+                className="w-full aspect-video"
+              />
             </div>
           </div>
         </section>

@@ -7,9 +7,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
-import { Save, Plus, Trash2, Camera } from 'lucide-react';
-import { CldUploadWidget } from 'next-cloudinary';
+import { Save, Plus, Trash2 } from 'lucide-react';
 import Image from 'next/image';
+import { FileUpload } from '@/components/ui/custom/file-upload';
 
 export default function AdminSettingsPage() {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
@@ -141,41 +141,16 @@ export default function AdminSettingsPage() {
           <h2 className="font-serif text-xl border-b border-border pb-4 mb-6">Brand Information</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="md:col-span-2 flex flex-col md:flex-row gap-6 items-start">
-               <div>
-                 <label className="text-xs uppercase tracking-widest text-muted-foreground block mb-2">Logo</label>
-                 <div className="relative group w-32 h-32 bg-muted border border-border rounded-lg overflow-hidden flex items-center justify-center">
-                    {settings.logo_url ? (
-                      <Image src={settings.logo_url} alt="Logo" fill className="object-cover" />
-                    ) : (
-                      <span className="text-xs text-muted-foreground uppercase tracking-wider text-center px-4">No Logo</span>
-                    )}
-                    
-                    <CldUploadWidget 
-                      uploadPreset="evie_portfolio"
-                      onSuccess={(result: any) => {
-                        handleChange('logo_url', result.info.secure_url);
-                      }}
-                    >
-                      {({ open }) => (
-                        <div 
-                          className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer"
-                          onClick={() => open()}
-                        >
-                          <Camera size={24} className="text-foreground mb-2" />
-                          <span className="text-[10px] uppercase font-medium tracking-widest">Change</span>
-                        </div>
-                      )}
-                    </CldUploadWidget>
-                 </div>
-                 {settings.logo_url && (
-                   <button 
-                     className="mt-2 text-[10px] uppercase tracking-widest text-destructive hover:underline"
-                     onClick={() => handleChange('logo_url', null)}
-                   >
-                     Remove Logo
-                   </button>
-                 )}
-               </div>
+                <div className="w-full max-w-sm">
+                  <label className="text-xs uppercase tracking-widest text-muted-foreground block mb-4">Logo</label>
+                  <FileUpload 
+                    label="Upload Logo"
+                    defaultValue={settings.logo_url || undefined}
+                    onUploadSuccess={(result) => handleChange('logo_url', result.secure_url)}
+                    onRemove={() => handleChange('logo_url', null)}
+                    className="w-48"
+                  />
+                </div>
                <div className="flex-1 w-full space-y-6">
                   <div>
                     <label className="text-xs uppercase tracking-widest text-muted-foreground block mb-2">Display Name (Header/Footer)</label>
