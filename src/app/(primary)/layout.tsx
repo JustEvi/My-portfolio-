@@ -1,9 +1,13 @@
 import PrimaryLayout from "@/components/layout/primary";
+import { createClient } from "@/lib/supabase/server";
 
-export default function SiteLayout({
+export default async function SiteLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	return <PrimaryLayout>{children}</PrimaryLayout>;
+	const supabase = await createClient();
+	const { data: settings } = await supabase.from('site_settings').select('*').single();
+
+	return <PrimaryLayout settings={settings}>{children}</PrimaryLayout>;
 }

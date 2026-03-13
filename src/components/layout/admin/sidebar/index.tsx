@@ -70,6 +70,11 @@ const data: NavData = {
 	],
 	navUtils: [
 		{
+			title: "Static Pages",
+			url: "/admin/pages",
+			icon: ChartBar,
+		},
+		{
 			title: "Settings",
 			url: "/admin/settings",
 			icon: Settings,

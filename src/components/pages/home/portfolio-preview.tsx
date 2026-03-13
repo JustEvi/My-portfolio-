@@ -2,34 +2,17 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import PageSection from '@/components/ui/custom/page-section';
+import { createClient } from '@/lib/supabase/server';
+import { Project } from '@/types';
 
-const PortfolioPreview = () => {
-  const projects = [
-    {
-      id: "1",
-      title: "Lumina Skincare",
-      category: "Branding & Packaging",
-      image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=2500&auto=format&fit=crop"
-    },
-    {
-      id: "2",
-      title: "Aura Architecture",
-      category: "Web Design",
-      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2500&auto=format&fit=crop"
-    },
-    {
-      id: "3",
-      title: "The Daily Roast",
-      category: "Visual Identity",
-      image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=2500&auto=format&fit=crop"
-    },
-    {
-      id: "4",
-      title: "Nova Tech",
-      category: "App Design",
-      image: "https://images.unsplash.com/photo-1618761714954-0b8cd0026356?q=80&w=2500&auto=format&fit=crop"
-    }
-  ];
+export default async function PortfolioPreview() {
+  const supabase = await createClient();
+  const { data: projects } = await supabase
+    .from('projects')
+    .select('*')
+    .eq('published', true)
+    .order('created_at', { ascending: false })
+    .limit(4);
 
   return (
     <PageSection padding="lg" className="pb-32">
@@ -44,19 +27,25 @@ const PortfolioPreview = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
-        {projects.map((project, idx) => (
+        {projects?.map((project, idx) => (
           <div key={project.id} className={`group cursor-pointer animate-in slide-in-from-bottom-8 duration-700 ${idx % 2 !== 0 ? 'md:mt-24' : ''}`} style={{ animationDelay: `${idx * 150}ms` }}>
-            <Link href={`/portfolio/${project.id}`}>
+            <Link href={`/portfolio/${project.slug}`}>
               <div className="relative h-[400px] md:h-[65vh] w-full mb-6 overflow-hidden bg-muted">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover transition-transform duration-1000 group-hover:scale-105"
-                />
+                {project.cover_image_url ? (
+                  <Image
+                    src={project.cover_image_url}
+                    alt={project.name}
+                    fill
+                    className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                  />
+                ) : (
+                   <div className="w-full h-full flex items-center justify-center bg-muted">
+                     <span className="text-muted-foreground uppercase text-xs tracking-widest">No Image</span>
+                   </div>
+                )}
               </div>
               <h3 className="font-serif text-2xl text-foreground mb-2 group-hover:text-secondary-muted transition-colors">
-                {project.title}
+                {project.name}
               </h3>
               <p className="font-sans text-sm text-muted-foreground uppercase tracking-wider">
                 {project.category}
@@ -64,9 +53,12 @@ const PortfolioPreview = () => {
             </Link>
           </div>
         ))}
+        {(!projects || projects.length === 0) && (
+          <div className="col-span-1 md:col-span-2 text-center py-20 text-muted-foreground font-serif italic text-xl">
+             More projects coming soon...
+          </div>
+        )}
       </div>
     </PageSection>
   );
-};
-
-export default PortfolioPreview;
+}

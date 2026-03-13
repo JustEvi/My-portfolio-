@@ -1,17 +1,33 @@
 import React from 'react';
 import Image from 'next/image';
 import PageSection from '@/components/ui/custom/page-section';
+import { createClient } from '@/lib/supabase/server';
 
-const AboutPage = () => {
+export default async function AboutPage() {
+  const supabase = await createClient();
+  const { data: contentData } = await supabase
+    .from('page_content')
+    .select('*')
+    .eq('page_slug', 'about');
+
+  const contentMap = contentData?.reduce((acc, curr) => {
+    acc[curr.section_name] = curr;
+    return acc;
+  }, {} as Record<string, any>) || {};
+
+  const bioQuote = contentMap.about_quote?.content || "Design is not just what it looks like and feels like. Design is how it works.";
+  const bioText = contentMap.about_bio_text?.content || "Evie is a creative director and visual designer based in New York. With over 8 years of experience, she specializes in creating robust visual identities and digital experiences for lifestyle, tech, and cultural brands.";
+  const imageUrl = contentMap.about_image?.image_url || 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=2564&auto=format&fit=crop';
+
   return (
     <main className="w-full">
       <PageSection padding="lg" className="pt-32 pb-24 md:pb-32">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-start">
           <div className="md:col-span-5 animate-in slide-in-from-bottom-8 duration-700">
-            <div className="relative w-full aspect-4/5 rounded-[10px] overflow-hidden">
+            <div className="relative w-full aspect-[4/5] rounded-[10px] overflow-hidden">
               <Image
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2564&auto=format&fit=crop"
-                alt="Evie Adebayo"
+                src={imageUrl}
+                alt="About Image"
                 fill
                 className="object-cover"
                 priority
@@ -23,15 +39,12 @@ const AboutPage = () => {
               A bit about <br/>
               <span className="text-secondary-muted italic">me</span>
             </h2>
-            <div className="space-y-6 text-[1.1rem] leading-[1.8] text-muted-foreground w-[90%] md:w-[85%]">
-              <p>
-                Hi, I'm Evie. I believe that the best design is invisible—it guides you, makes you feel, and leaves a lasting impression without you ever noticing the choices that led you there.
+            <div className="space-y-6 text-[1.1rem] leading-[1.8] text-muted-foreground w-[90%] md:w-[85%] whitespace-pre-wrap">
+              <p className="font-serif italic text-2xl text-foreground mb-4">
+                "{bioQuote}"
               </p>
               <p>
-                With over a decade of experience across branding, digital product design, and creative direction, I've had the privilege of partnering with founders and teams to clarify their vision and turn it into compelling visual stories.
-              </p>
-              <p>
-                When I'm not pushing pixels or auditing brand systems, you'll find me exploring the vibrant art scene in Ibadan, curating mood boards, or obsessing over typography found in old books.
+                {bioText}
               </p>
             </div>
             
@@ -54,6 +67,4 @@ const AboutPage = () => {
       </PageSection>
     </main>
   );
-};
-
-export default AboutPage;
+}

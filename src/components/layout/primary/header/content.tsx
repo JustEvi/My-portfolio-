@@ -4,7 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
-const NavContent = () => {
+import { SiteSettings } from "@/types";
+import Image from "next/image";
+
+const NavContent = ({ settings }: { settings: SiteSettings | null }) => {
 	const pathname = usePathname();
 
 	const navItems = [
@@ -19,9 +22,15 @@ const NavContent = () => {
 			<div className="w-site flex items-center justify-between">
 				<Link 
 					href="/" 
-					className="font-serif text-2xl font-normal tracking-wide text-foreground hover:opacity-80 transition-opacity"
+					className="font-serif text-2xl font-normal tracking-wide text-foreground hover:opacity-80 transition-opacity flex items-center gap-2"
 				>
-					Evie <span className="text-secondary-muted italic">Adebayo</span>
+					{settings?.logo_url ? (
+						<div className="relative w-8 h-8 md:w-10 md:h-10 rounded overflow-hidden">
+							<Image src={settings.logo_url} alt="Logo" fill className="object-cover" />
+						</div>
+					) : (
+						<>{settings?.display_name || "Evie"}</>
+					)}
 				</Link>
 				
 				<nav className="hidden md:flex items-center gap-10 list-none">
