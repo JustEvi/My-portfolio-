@@ -73,31 +73,39 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   };
 
   return (
-    <div className={`space-y-4 ${className}`}>
+    <div className={`space-y-4 h-full ${className}`}>
       {previewUrl ? (
-        <div className="relative aspect-video rounded-lg overflow-hidden border border-border bg-muted group">
-          <Image
-            src={previewUrl}
-            alt="Preview"
-            fill
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+        <div className="space-y-3">
+          <div className="relative aspect-7/6 rounded-lg overflow-hidden border border-border bg-muted">
+            <Image
+              src={previewUrl}
+              alt="Preview"
+              fill
+              className="object-cover"
+            />
+          </div>
+          <div className="flex items-center gap-2">
             <Button
               type="button"
-              variant="destructive"
-              size="icon"
-              onClick={handleRemove}
+              variant="outline"
+              size="sm"
+              className="flex-1 h-9"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isUploading}
             >
-              <X className="h-4 w-4" />
+              <Upload className="h-4 w-4 mr-2" />
+              Change
             </Button>
             <Button
               type="button"
-              variant="secondary"
+              variant="destructive"
               size="sm"
-              onClick={() => fileInputRef.current?.click()}
+              className="h-9 px-3"
+              onClick={handleRemove}
+              disabled={isUploading}
             >
-              Change
+              <X className="h-4 w-4 mr-2" />
+              Remove
             </Button>
           </div>
         </div>
