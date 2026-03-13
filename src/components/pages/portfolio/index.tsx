@@ -1,15 +1,28 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import PageSection from '@/components/ui/custom/page-section';
 import { cn } from '@/lib/utils';
+import { createClient } from '@/lib/supabase/client';
 
 const PortfolioPage = () => {
   const [activeFilter, setActiveFilter] = useState("All");
+  const [dynamicCategories, setDynamicCategories] = useState<string[]>([]);
 
-  const filters = ["All", "Branding", "Web Design", "Digital Art"];
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const supabase = createClient();
+      const { data } = await supabase.from('categories').select('name').order('name');
+      if (data) {
+        setDynamicCategories(data.map(c => c.name));
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  const filters = ["All", ...dynamicCategories];
 
   const projects = [
     {
