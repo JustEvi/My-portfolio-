@@ -24,7 +24,7 @@ export default async function AboutPage() {
       <PageSection padding="lg" className="pt-32 pb-24 md:pb-32">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-start">
           <div className="md:col-span-5 animate-in slide-in-from-bottom-8 duration-700">
-            <div className="relative w-full aspect-[4/5] rounded-[10px] overflow-hidden">
+            <div className="relative w-full aspect-4/5 rounded-[10px] overflow-hidden">
               <Image
                 src={imageUrl}
                 alt="About Image"

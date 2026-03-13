@@ -182,7 +182,7 @@ export default function AdminPagesPage() {
 
                 <div>
                   <label className="text-xs uppercase tracking-widest text-muted-foreground block mb-2">Hero Image</label>
-                  <div className="relative group w-full aspect-[4/5] md:aspect-square bg-muted border border-border rounded-lg overflow-hidden flex items-center justify-center">
+                  <div className="relative group w-full aspect-4/5 md:aspect-square bg-muted border border-border rounded-lg overflow-hidden flex items-center justify-center">
                     {content['home_hero_image']?.image_url ? (
                       <Image src={content['home_hero_image'].image_url} alt="Hero" fill className="object-cover" />
                     ) : (
@@ -247,7 +247,7 @@ export default function AdminPagesPage() {
 
                 <div>
                   <label className="text-xs uppercase tracking-widest text-muted-foreground block mb-2">Profile Image</label>
-                  <div className="relative group w-full aspect-[4/5] md:aspect-square bg-muted border border-border rounded-lg overflow-hidden flex items-center justify-center">
+                  <div className="relative group w-full aspect-4/5 md:aspect-square bg-muted border border-border rounded-lg overflow-hidden flex items-center justify-center">
                     {content['about_about_image']?.image_url ? (
                       <Image src={content['about_about_image'].image_url} alt="Profile" fill className="object-cover" />
                     ) : (

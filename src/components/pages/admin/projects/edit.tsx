@@ -274,7 +274,7 @@ export default function AdminEditProjectPage({ projectId }: { projectId: string 
           <div className="space-y-4">
             <Label className="text-xs uppercase tracking-widest text-muted-foreground">Cover Image</Label>
             {coverImage ? (
-              <div className="relative w-full aspect-video md:aspect-[21/9] rounded-sm overflow-hidden border border-border bg-muted group">
+              <div className="relative w-full aspect-video md:aspect-21/9 rounded-sm overflow-hidden border border-border bg-muted group">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={coverImage.url} alt="Cover preview" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
