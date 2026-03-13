@@ -1,0 +1,1901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evie — Creative Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose: #e8b4b8;
+    --rose-deep: #c9848a;
+    --rose-pale: #f5e6e8;
+    --rose-blush: #fdf0f1;
+    --ink: #1a1118;
+    --ink-light: #4a3a44;
+    --ink-muted: #8a7080;
+    --cream: #faf7f5;
+    --white: #ffffff;
+    --border: #ecdde0;
+    --font-display: 'Cormorant Garamond', serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── HIDE ALL PAGES ── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.4rem 4rem;
+    background: rgba(250,247,245,0.88);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .nav-logo span { color: var(--rose-deep); font-style: italic; }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px; left: 0; right: 0;
+    height: 1px;
+    background: var(--rose-deep);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .nav-links a:hover, .nav-links a.active-link { color: var(--rose-deep); }
+  .nav-links a:hover::after, .nav-links a.active-link::after { transform: scaleX(1); }
+
+  /* ── HOME PAGE ── */
+  #home {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 5rem;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 4rem 5rem 4rem;
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rose-deep);
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 2rem;
+    height: 1px;
+    background: var(--rose-deep);
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 5vw, 5rem);
+    font-weight: 300;
+    line-height: 1.08;
+    color: var(--ink);
+    margin-bottom: 0.2rem;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--rose-deep);
+    font-weight: 400;
+  }
+
+  .hero-subtitle {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3vw, 3rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--ink-muted);
+    margin-bottom: 2.5rem;
+    line-height: 1.2;
+  }
+
+  .hero-desc {
+    font-size: 0.95rem;
+    color: var(--ink-light);
+    max-width: 420px;
+    line-height: 1.85;
+    margin-bottom: 3rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .btn-primary {
+    background: var(--ink);
+    color: var(--white);
+    padding: 0.85rem 2rem;
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--rose-deep); transform: translateY(-1px); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--ink);
+    padding: 0.85rem 2rem;
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .btn-outline:hover { border-color: var(--rose-deep); color: var(--rose-deep); }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+    background: var(--rose-pale);
+  }
+
+  .hero-image-area {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-photo-placeholder {
+    width: 380px;
+    height: 520px;
+    background: linear-gradient(145deg, var(--rose-blush), var(--rose));
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .hero-photo-placeholder svg { opacity: 0.35; }
+  .hero-photo-placeholder span {
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    color: var(--rose-deep);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  .hero-accent-blob {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(232,180,184,0.4) 0%, transparent 70%);
+    top: 10%;
+    right: -5%;
+    pointer-events: none;
+  }
+
+  .hero-tag {
+    position: absolute;
+    bottom: 3rem;
+    left: 2rem;
+    background: var(--white);
+    padding: 1.2rem 1.5rem;
+    box-shadow: 0 4px 24px rgba(26,17,24,0.08);
+    max-width: 220px;
+  }
+  .hero-tag-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rose-deep);
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+  .hero-tag-text {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--ink);
+    line-height: 1.4;
+    font-style: italic;
+  }
+
+  /* Grad badge */
+  .grad-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--rose-blush);
+    border: 1px solid var(--border);
+    padding: 0.6rem 1rem;
+    margin-bottom: 2rem;
+    font-size: 0.78rem;
+    color: var(--ink-light);
+    max-width: fit-content;
+  }
+  .grad-badge svg { flex-shrink: 0; }
+
+  /* Marquee strip */
+  .marquee-strip {
+    background: var(--ink);
+    color: var(--rose);
+    padding: 0.9rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .marquee-inner {
+    display: inline-block;
+    animation: marquee 20s linear infinite;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── ABOUT / SKILLS SECTION ── */
+  .section {
+    padding: 7rem 4rem;
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rose-deep);
+    font-weight: 500;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 1.5rem;
+    height: 1px;
+    background: var(--rose-deep);
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    font-weight: 300;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+  }
+  .section-title em { font-style: italic; color: var(--rose-deep); }
+
+  /* SERVICES */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    background: var(--border);
+    margin-top: 4rem;
+  }
+
+  .service-card {
+    background: var(--cream);
+    padding: 2.5rem;
+    transition: background 0.3s;
+  }
+  .service-card:hover { background: var(--rose-blush); }
+
+  .service-num {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--rose);
+    line-height: 1;
+    margin-bottom: 1.5rem;
+  }
+
+  .service-name {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+    line-height: 1.2;
+  }
+
+  .service-desc {
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+    line-height: 1.8;
+  }
+
+  /* PORTFOLIO PREVIEW */
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .portfolio-card {
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  .portfolio-card:hover { transform: translateY(-4px); }
+  .portfolio-card:hover .portfolio-img { filter: brightness(0.92); }
+
+  .portfolio-img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+    transition: filter 0.3s;
+    background: linear-gradient(135deg, var(--rose-pale), var(--rose));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--rose-deep);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.1rem;
+  }
+
+  .portfolio-meta {
+    padding: 1.2rem 0 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .portfolio-name {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 400;
+  }
+
+  .portfolio-type {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rose-deep);
+  }
+
+  .portfolio-tools {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+  }
+
+  .tool-tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    background: var(--rose-blush);
+    color: var(--rose-deep);
+    border: 1px solid var(--border);
+  }
+
+  /* ── ABOUT PAGE ── */
+  .about-hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 5rem;
+  }
+
+  .about-img-col {
+    background: var(--rose-pale);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 600px;
+  }
+
+  .about-photo {
+    width: 360px;
+    height: 480px;
+    background: linear-gradient(145deg, var(--rose-blush), var(--rose));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .about-content {
+    padding: 8rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .about-quote {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--ink);
+    border-left: 2px solid var(--rose);
+    padding-left: 2rem;
+    margin: 2.5rem 0;
+  }
+
+  .about-bio {
+    font-size: 0.92rem;
+    color: var(--ink-light);
+    line-height: 1.9;
+    max-width: 480px;
+  }
+
+  .about-bio p + p { margin-top: 1.2rem; }
+
+  .stats-row {
+    display: flex;
+    gap: 3rem;
+    margin-top: 3rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .stat-item .num {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--rose-deep);
+    line-height: 1;
+  }
+
+  .stat-item .lbl {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-top: 0.25rem;
+  }
+
+  /* ── CONTACT PAGE ── */
+  .contact-layout {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 5rem;
+  }
+
+  .contact-left {
+    background: var(--ink);
+    padding: 8rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .contact-left .section-label { color: var(--rose); }
+  .contact-left .section-label::before { background: var(--rose); }
+
+  .contact-left .section-title { color: var(--white); }
+  .contact-left .section-title em { color: var(--rose); }
+
+  .contact-info {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .contact-item-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+  }
+
+  .contact-item-val {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    color: rgba(255,255,255,0.85);
+    font-style: italic;
+  }
+
+  .contact-right {
+    padding: 8rem 4rem;
+    background: var(--cream);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 480px;
+  }
+
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .form-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    font-weight: 500;
+  }
+
+  .form-input, .form-textarea {
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 0.85rem 1rem;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--ink);
+    transition: border-color 0.2s;
+    outline: none;
+    width: 100%;
+  }
+  .form-input:focus, .form-textarea:focus { border-color: var(--rose-deep); }
+  .form-textarea { resize: vertical; min-height: 130px; }
+
+  /* ── PORTFOLIO LIST PAGE ── */
+  .portfolio-hero {
+    padding: 12rem 4rem 5rem;
+    text-align: center;
+    background: var(--rose-blush);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .portfolio-hero .section-label {
+    justify-content: center;
+  }
+  .portfolio-hero .section-label::before { display: none; }
+
+  .portfolio-filter {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--ink-light);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: var(--font-body);
+  }
+  .filter-btn.active, .filter-btn:hover {
+    background: var(--rose-deep);
+    border-color: var(--rose-deep);
+    color: var(--white);
+  }
+
+  .portfolio-full-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 5rem 4rem;
+  }
+
+  /* ── PORTFOLIO DETAIL ── */
+  .detail-hero {
+    padding: 10rem 4rem 5rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: var(--font-body);
+    margin-bottom: 3rem;
+    transition: color 0.2s;
+    padding: 0;
+  }
+  .back-btn:hover { color: var(--rose-deep); }
+
+  .detail-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+  .detail-title em { font-style: italic; color: var(--rose-deep); }
+
+  .detail-meta-row {
+    display: flex;
+    gap: 3rem;
+    padding: 2rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 3rem;
+  }
+
+  .detail-meta-item .lbl {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rose-deep);
+    margin-bottom: 0.3rem;
+    font-weight: 500;
+  }
+
+  .detail-meta-item .val {
+    font-size: 0.9rem;
+    color: var(--ink-light);
+  }
+
+  .detail-hero-img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, var(--rose-pale), var(--rose));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4rem;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--rose-deep);
+  }
+
+  .detail-body {
+    max-width: 680px;
+    margin: 0 auto;
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: var(--ink-light);
+  }
+
+  .detail-body h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin: 2.5rem 0 0.75rem;
+  }
+
+  .screengrab-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin: 3rem 0;
+  }
+
+  .screengrab {
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, var(--rose-blush), var(--rose-pale));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    color: var(--rose-deep);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ── ADMIN PANEL ── */
+  #admin {
+    min-height: 100vh;
+    background: #f8f4f5;
+    display: none;
+  }
+  #admin.active { display: flex; }
+
+  .admin-sidebar {
+    width: 240px;
+    background: var(--ink);
+    min-height: 100vh;
+    padding: 2rem 0;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+  }
+
+  .admin-logo {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    color: var(--rose);
+    padding: 1rem 1.75rem 2rem;
+    font-style: italic;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+  .admin-logo span {
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    font-style: normal;
+  }
+
+  .admin-nav {
+    list-style: none;
+    padding: 0 0.75rem;
+  }
+
+  .admin-nav li a {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+    margin-bottom: 0.25rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+  .admin-nav li a:hover, .admin-nav li a.active {
+    background: rgba(232,180,184,0.12);
+    color: var(--rose);
+  }
+
+  .admin-main {
+    flex: 1;
+    padding: 2.5rem;
+    overflow-y: auto;
+  }
+
+  .admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .admin-page-title {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 300;
+  }
+
+  .admin-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .admin-section-title {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rose-deep);
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .admin-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .admin-form-grid.full { grid-template-columns: 1fr; }
+
+  .admin-field { display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .admin-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    font-weight: 500;
+  }
+
+  .admin-input, .admin-textarea, .admin-select {
+    background: #fafafa;
+    border: 1px solid var(--border);
+    padding: 0.75rem 0.9rem;
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+    border-radius: 2px;
+  }
+  .admin-input:focus, .admin-textarea:focus, .admin-select:focus {
+    border-color: var(--rose-deep);
+  }
+  .admin-textarea { resize: vertical; min-height: 100px; }
+
+  .upload-zone {
+    border: 2px dashed var(--border);
+    background: #fafafa;
+    padding: 2.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+  .upload-zone:hover { border-color: var(--rose-deep); background: var(--rose-blush); }
+  .upload-zone p { font-size: 0.82rem; color: var(--ink-muted); margin-top: 0.5rem; }
+  .upload-zone .upload-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+
+  .rich-editor-mock {
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .rich-toolbar {
+    background: #f5f0f1;
+    border-bottom: 1px solid var(--border);
+    padding: 0.5rem 0.75rem;
+    display: flex;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+  }
+  .rich-btn {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 2px;
+    font-weight: 500;
+    transition: background 0.15s;
+    color: var(--ink-light);
+  }
+  .rich-btn:hover { background: rgba(0,0,0,0.07); }
+  .rich-area {
+    padding: 1rem;
+    min-height: 180px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    outline: none;
+    color: var(--ink);
+    background: var(--white);
+  }
+
+  .tools-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.75rem;
+    background: var(--rose-blush);
+    border: 1px solid var(--border);
+    font-size: 0.75rem;
+    color: var(--rose-deep);
+    border-radius: 2px;
+  }
+  .chip-remove {
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    color: var(--rose-deep);
+    opacity: 0.6;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: monospace;
+  }
+
+  .admin-portfolio-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .admin-portfolio-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    border-radius: 2px;
+  }
+
+  .admin-portfolio-thumb {
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, var(--rose-pale), var(--rose));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--rose-deep);
+    font-size: 0.9rem;
+  }
+
+  .admin-portfolio-info {
+    padding: 1rem;
+  }
+
+  .admin-portfolio-info h4 {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 0.25rem;
+  }
+
+  .admin-portfolio-info p {
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+  }
+
+  .admin-portfolio-actions {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .btn-sm {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+    font-family: var(--font-body);
+    transition: all 0.2s;
+    color: var(--ink-light);
+    border-radius: 2px;
+  }
+  .btn-sm:hover { border-color: var(--rose-deep); color: var(--rose-deep); }
+  .btn-sm.danger:hover { border-color: #c0392b; color: #c0392b; }
+
+  .stats-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .stat-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    border-radius: 2px;
+  }
+
+  .stat-card .big-num {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .stat-card .big-lbl {
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  .stat-card .trend {
+    font-size: 0.72rem;
+    color: #27ae60;
+    margin-top: 0.5rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.5);
+    padding: 4rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: end;
+  }
+
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--white);
+    font-style: italic;
+    font-weight: 300;
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-tagline {
+    font-size: 0.8rem;
+    line-height: 1.7;
+    max-width: 340px;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: right;
+  }
+
+  .footer-links a {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--rose); }
+
+  .footer-bottom {
+    background: var(--ink);
+    padding: 1.5rem 4rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-bottom p { font-size: 0.72rem; color: rgba(255,255,255,0.25); }
+
+  /* ── ADMIN TOGGLE ── */
+  .admin-toggle {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--ink);
+    color: var(--rose);
+    border: none;
+    padding: 0.85rem 1.25rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: var(--font-body);
+    z-index: 999;
+    transition: all 0.2s;
+    border-radius: 2px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  }
+  .admin-toggle:hover { background: var(--rose-deep); color: var(--white); }
+
+  /* ── ADMIN NAV HIDDEN ── */
+  nav.hidden { display: none; }
+
+  /* toast */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--ink);
+    color: var(--rose);
+    padding: 0.85rem 2rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    z-index: 9999;
+    transition: transform 0.3s;
+    border-radius: 2px;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- MAIN NAV -->
+<nav id="main-nav">
+  <div class="nav-logo" onclick="showPage('home')">Evie <span>Adebayo</span></div>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" class="active-link" id="nav-home">Home</a></li>
+    <li><a onclick="showPage('about')" id="nav-about">About</a></li>
+    <li><a onclick="showPage('portfolio-list')" id="nav-portfolio">Portfolio</a></li>
+    <li><a onclick="showPage('contact')" id="nav-contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ════════════════════════════════════════════
+  HOME PAGE
+═══════════════════════════════════════════════ -->
+<div class="page active" id="home">
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Creative Designer</div>
+      <h1 class="hero-title">
+        Designing<br>stories through<br><em>visuals.</em>
+      </h1>
+      <p class="hero-subtitle">Graphic Design &amp; Brand Identity</p>
+
+      <div class="grad-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        Recent graduate · University of Ibadan · Communication &amp; Language Arts
+      </div>
+
+      <p class="hero-desc">
+        Hi! I'm Evie, a graphic designer. My primary goal as a designer is to tell a story through the visuals, ensuring they convey the right message. I focus mainly on social media ads and print ads.
+      </p>
+
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="showPage('portfolio-list')">View My Work</button>
+        <button class="btn-outline" onclick="showPage('contact')">Get In Touch</button>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-image-area">
+        <div class="hero-accent-blob"></div>
+        <div class="hero-photo-placeholder">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#c9848a" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <span>Your Photo Here</span>
+        </div>
+        <div class="hero-tag">
+          <div class="hero-tag-label">Currently available for</div>
+          <div class="hero-tag-text">"Freelance & collaboration projects"</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-strip">
+    <div class="marquee-inner">
+      Social Media Ads &nbsp;·&nbsp; Print Design &nbsp;·&nbsp; Brand Identity &nbsp;·&nbsp; Visual Storytelling &nbsp;·&nbsp; Graphic Design &nbsp;·&nbsp; Creative Direction &nbsp;·&nbsp; Typography &nbsp;·&nbsp; Art Direction &nbsp;·&nbsp; Social Media Ads &nbsp;·&nbsp; Print Design &nbsp;·&nbsp; Brand Identity &nbsp;·&nbsp; Visual Storytelling &nbsp;·&nbsp; Graphic Design &nbsp;·&nbsp; Creative Direction &nbsp;·&nbsp; Typography &nbsp;·&nbsp; Art Direction &nbsp;·&nbsp;
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="section" style="background:var(--white)">
+    <div class="section-label">What I Do</div>
+    <h2 class="section-title">Crafting visuals that<br><em>speak volumes.</em></h2>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <div class="service-name">Social Media Ads</div>
+        <p class="service-desc">Eye-catching, scroll-stopping social content designed to convert attention into action — tailored for Instagram, Twitter, and more.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <div class="service-name">Print Design</div>
+        <p class="service-desc">From flyers to billboards, I craft print materials that feel intentional and polished, ready for the physical world.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <div class="service-name">Brand Identity</div>
+        <p class="service-desc">Cohesive visual systems that give brands a distinct, memorable presence — logos, colour palettes, and guidelines.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO PREVIEW -->
+  <section class="section">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+      <div>
+        <div class="section-label">Selected Work</div>
+        <h2 class="section-title">Recent <em>projects.</em></h2>
+      </div>
+      <button class="btn-outline" onclick="showPage('portfolio-list')">View All Work</button>
+    </div>
+
+    <div class="portfolio-grid">
+      <div class="portfolio-card" onclick="showPage('portfolio-detail')">
+        <div class="portfolio-img">Bloom Cosmetics Campaign</div>
+        <div class="portfolio-meta">
+          <div class="portfolio-name">Bloom Cosmetics</div>
+          <div class="portfolio-type">Social Media</div>
+        </div>
+        <div class="portfolio-tools">
+          <span class="tool-tag">Photoshop</span>
+          <span class="tool-tag">Illustrator</span>
+        </div>
+      </div>
+      <div class="portfolio-card" onclick="showPage('portfolio-detail')">
+        <div class="portfolio-img" style="background: linear-gradient(135deg, #e8e4f0, #c9b8d4);">Radiant Tea Branding</div>
+        <div class="portfolio-meta">
+          <div class="portfolio-name">Radiant Tea</div>
+          <div class="portfolio-type">Brand Identity</div>
+        </div>
+        <div class="portfolio-tools">
+          <span class="tool-tag">Figma</span>
+          <span class="tool-tag">Illustrator</span>
+        </div>
+      </div>
+      <div class="portfolio-card" onclick="showPage('portfolio-detail')">
+        <div class="portfolio-img" style="background: linear-gradient(135deg, #e4eef5, #b8d4e8);">Zara Summer Print</div>
+        <div class="portfolio-meta">
+          <div class="portfolio-name">Zara Print Series</div>
+          <div class="portfolio-type">Print Design</div>
+        </div>
+        <div class="portfolio-tools">
+          <span class="tool-tag">InDesign</span>
+          <span class="tool-tag">Photoshop</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="footer-logo">Evie Adebayo</div>
+      <p class="footer-tagline">A graphic designer telling stories through visuals. Based in Ibadan, Nigeria. Available for freelance and collaborative work globally.</p>
+    </div>
+    <div class="footer-links">
+      <a onclick="showPage('home')">Home</a>
+      <a onclick="showPage('about')">About</a>
+      <a onclick="showPage('portfolio-list')">Portfolio</a>
+      <a onclick="showPage('contact')">Contact</a>
+    </div>
+  </footer>
+  <div class="footer-bottom">
+    <p>&copy; 2025 Evie Adebayo. All rights reserved.</p>
+    <p style="font-size:0.68rem;color:rgba(255,255,255,0.18);">Built with Next.js · Supabase · shadcn/ui</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+  ABOUT PAGE
+═══════════════════════════════════════════════ -->
+<div class="page" id="about">
+  <section class="about-hero">
+    <div class="about-img-col">
+      <div class="about-photo">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#c9848a" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        <span style="font-size:0.72rem;color:var(--rose-deep);letter-spacing:0.1em;text-transform:uppercase;opacity:0.7">Your Photo</span>
+      </div>
+    </div>
+    <div class="about-content">
+      <div class="section-label">About Me</div>
+      <h1 class="section-title">Hi, I'm <em>Evie.</em></h1>
+
+      <blockquote class="about-quote">
+        "My primary goal as a designer is to tell a story through the visuals."
+      </blockquote>
+
+      <div class="about-bio">
+        <p>I'm a graphic designer with a passion for visual storytelling. I focus mainly on social media ads and print ads — ensuring that every piece I create conveys exactly the right message.</p>
+        <p>I thrive in collaborative environments that spark fresh ideas and innovation. I'm always eager to learn and push my creativity further, blending purposeful design with compelling aesthetics.</p>
+        <p>I'm a recent graduate from the <strong>University of Ibadan</strong>, where I studied Communication and Language Arts — a background that deeply informs how I think about message, audience, and impact in my design work.</p>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-item">
+          <div class="num">12+</div>
+          <div class="lbl">Projects Completed</div>
+        </div>
+        <div class="stat-item">
+          <div class="num">3+</div>
+          <div class="lbl">Years of Design</div>
+        </div>
+        <div class="stat-item">
+          <div class="num">8+</div>
+          <div class="lbl">Happy Clients</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>
+      <div class="footer-logo">Evie Adebayo</div>
+      <p class="footer-tagline">Available for freelance projects and collaborations.</p>
+    </div>
+    <div class="footer-links">
+      <a onclick="showPage('home')">Home</a>
+      <a onclick="showPage('portfolio-list')">Portfolio</a>
+      <a onclick="showPage('contact')">Contact</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════════════════
+  CONTACT PAGE
+═══════════════════════════════════════════════ -->
+<div class="page" id="contact">
+  <div class="contact-layout">
+    <div class="contact-left">
+      <div class="section-label">Let's Talk</div>
+      <h2 class="section-title" style="color:var(--white)">Start a<br><em>conversation.</em></h2>
+      <p style="color:rgba(255,255,255,0.55);font-size:0.9rem;line-height:1.8;margin-top:1.5rem;max-width:380px;">I'm always open to discussing new projects, creative ideas, or opportunities to collaborate. Let's create something beautiful together.</p>
+      <div class="contact-info">
+        <div>
+          <div class="contact-item-label">Email</div>
+          <div class="contact-item-val">evie@example.com</div>
+        </div>
+        <div>
+          <div class="contact-item-label">Location</div>
+          <div class="contact-item-val">Ibadan, Nigeria</div>
+        </div>
+        <div>
+          <div class="contact-item-label">Availability</div>
+          <div class="contact-item-val">Open to freelance</div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-right">
+      <div class="section-label">Send a Message</div>
+      <h3 style="font-family:var(--font-display);font-size:1.8rem;font-weight:300;margin-bottom:2rem;">Drop me a line.</h3>
+      <div class="contact-form">
+        <div class="form-group">
+          <label class="form-label">Your Name</label>
+          <input type="text" class="form-input" placeholder="Jane Doe">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" class="form-input" placeholder="jane@example.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Subject</label>
+          <input type="text" class="form-input" placeholder="Project inquiry">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea class="form-textarea" placeholder="Tell me about your project..."></textarea>
+        </div>
+        <button class="btn-primary" onclick="showToast('Message sent! I\\'ll be in touch soon.')">Send Message</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+  PORTFOLIO LIST PAGE
+═══════════════════════════════════════════════ -->
+<div class="page" id="portfolio-list">
+  <div class="portfolio-hero">
+    <div class="section-label">My Work</div>
+    <h1 class="section-title">Portfolio</h1>
+    <p style="font-size:0.9rem;color:var(--ink-muted);max-width:480px;margin:1rem auto 0;">A curated collection of projects spanning social media campaigns, print design, and brand identities.</p>
+    <div class="portfolio-filter">
+      <button class="filter-btn active">All Work</button>
+      <button class="filter-btn">Social Media</button>
+      <button class="filter-btn">Print Design</button>
+      <button class="filter-btn">Brand Identity</button>
+    </div>
+  </div>
+
+  <div class="portfolio-full-grid">
+    <div class="portfolio-card" onclick="showPage('portfolio-detail')">
+      <div class="portfolio-img">Bloom Cosmetics</div>
+      <div class="portfolio-meta"><div class="portfolio-name">Bloom Cosmetics Campaign</div><div class="portfolio-type">Social Media</div></div>
+      <div class="portfolio-tools"><span class="tool-tag">Photoshop</span><span class="tool-tag">Illustrator</span></div>
+    </div>
+    <div class="portfolio-card" onclick="showPage('portfolio-detail')">
+      <div class="portfolio-img" style="background:linear-gradient(135deg,#e8e4f0,#c9b8d4)">Radiant Tea</div>
+      <div class="portfolio-meta"><div class="portfolio-name">Radiant Tea Branding</div><div class="portfolio-type">Brand Identity</div></div>
+      <div class="portfolio-tools"><span class="tool-tag">Figma</span><span class="tool-tag">Illustrator</span></div>
+    </div>
+    <div class="portfolio-card" onclick="showPage('portfolio-detail')">
+      <div class="portfolio-img" style="background:linear-gradient(135deg,#e4eef5,#b8d4e8)">Zara Print</div>
+      <div class="portfolio-meta"><div class="portfolio-name">Zara Summer Series</div><div class="portfolio-type">Print Design</div></div>
+      <div class="portfolio-tools"><span class="tool-tag">InDesign</span><span class="tool-tag">Photoshop</span></div>
+    </div>
+    <div class="portfolio-card" onclick="showPage('portfolio-detail')">
+      <div class="portfolio-img" style="background:linear-gradient(135deg,#f0e8e4,#d4b8b8)">Nova Skincare</div>
+      <div class="portfolio-meta"><div class="portfolio-name">Nova Skincare Ads</div><div class="portfolio-type">Social Media</div></div>
+      <div class="portfolio-tools"><span class="tool-tag">Canva Pro</span><span class="tool-tag">Photoshop</span></div>
+    </div>
+    <div class="portfolio-card" onclick="showPage('portfolio-detail')">
+      <div class="portfolio-img" style="background:linear-gradient(135deg,#e8f0e4,#b8d4b8)">Verde Restaurant</div>
+      <div class="portfolio-meta"><div class="portfolio-name">Verde Restaurant Identity</div><div class="portfolio-type">Brand Identity</div></div>
+      <div class="portfolio-tools"><span class="tool-tag">Illustrator</span><span class="tool-tag">InDesign</span></div>
+    </div>
+    <div class="portfolio-card" onclick="showPage('portfolio-detail')">
+      <div class="portfolio-img" style="background:linear-gradient(135deg,#f0ece4,#d4c8b8)">Lagos Art Fair</div>
+      <div class="portfolio-meta"><div class="portfolio-name">Lagos Art Fair Poster</div><div class="portfolio-type">Print Design</div></div>
+      <div class="portfolio-tools"><span class="tool-tag">Photoshop</span><span class="tool-tag">Illustrator</span></div>
+    </div>
+  </div>
+
+  <footer>
+    <div>
+      <div class="footer-logo">Evie Adebayo</div>
+      <p class="footer-tagline">Crafting visuals that tell stories.</p>
+    </div>
+    <div class="footer-links">
+      <a onclick="showPage('home')">Home</a>
+      <a onclick="showPage('about')">About</a>
+      <a onclick="showPage('contact')">Contact</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════════════════
+  PORTFOLIO DETAIL PAGE
+═══════════════════════════════════════════════ -->
+<div class="page" id="portfolio-detail">
+  <div class="detail-hero">
+    <button class="back-btn" onclick="showPage('portfolio-list')">← Back to Portfolio</button>
+    <div class="section-label">Social Media Design</div>
+    <h1 class="detail-title">Bloom Cosmetics<br><em>Campaign</em></h1>
+    <div class="detail-meta-row">
+      <div class="detail-meta-item"><div class="lbl">Category</div><div class="val">Social Media Ads</div></div>
+      <div class="detail-meta-item"><div class="lbl">Tools Used</div><div class="val">Adobe Photoshop, Illustrator</div></div>
+      <div class="detail-meta-item"><div class="lbl">Year</div><div class="val">2024</div></div>
+      <div class="detail-meta-item"><div class="lbl">Live Link</div><div class="val" style="color:var(--rose-deep);text-decoration:underline;cursor:pointer">View Project →</div></div>
+    </div>
+    <div class="detail-hero-img">Main Project Image</div>
+
+    <div class="detail-body">
+      <h3>Project Overview</h3>
+      <p>Bloom Cosmetics needed a fresh social media campaign that would resonate with their young, beauty-conscious audience. The brief was to create a series of visually striking ads that communicate luxury without losing accessibility.</p>
+
+      <h3>The Approach</h3>
+      <p>I developed a visual language centred around soft, feminine tones contrasted with bold typography. Each ad was designed to perform well both on Instagram feed and stories, with a consistent colour palette tying the series together.</p>
+
+      <div class="screengrab-grid">
+        <div class="screengrab">Screengrab 01</div>
+        <div class="screengrab">Screengrab 02</div>
+        <div class="screengrab">Screengrab 03</div>
+        <div class="screengrab">Screengrab 04</div>
+      </div>
+
+      <h3>Results</h3>
+      <p>The campaign achieved a 42% increase in engagement across platforms, with the hero graphic becoming one of the brand's most-shared assets.</p>
+    </div>
+  </div>
+
+  <footer>
+    <div>
+      <div class="footer-logo">Evie Adebayo</div>
+      <p class="footer-tagline">Crafting visuals that tell stories.</p>
+    </div>
+    <div class="footer-links">
+      <a onclick="showPage('home')">Home</a>
+      <a onclick="showPage('portfolio-list')">Portfolio</a>
+      <a onclick="showPage('contact')">Contact</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════════════════
+  ADMIN PANEL
+═══════════════════════════════════════════════ -->
+<div class="page" id="admin">
+  <aside class="admin-sidebar">
+    <div class="admin-logo">
+      Evie Admin
+      <span>Portfolio CMS</span>
+    </div>
+    <ul class="admin-nav">
+      <li><a class="active" onclick="adminTab('dashboard', this)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </a></li>
+      <li><a onclick="adminTab('projects', this)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8M12 8v8"/></svg>
+        Portfolio Projects
+      </a></li>
+      <li><a onclick="adminTab('new', this)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12h14"/></svg>
+        Add New Project
+      </a></li>
+      <li><a onclick="adminTab('settings', this)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        Settings
+      </a></li>
+    </ul>
+    <div style="position:absolute;bottom:1.5rem;left:0;right:0;padding:0 0.75rem;">
+      <a onclick="exitAdmin()" style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;font-size:0.78rem;color:rgba(255,255,255,0.3);cursor:pointer;text-decoration:none;border-radius:4px;transition:all 0.2s;" onmouseover="this.style.color='#e8b4b8'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        Back to Site
+      </a>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+
+    <!-- DASHBOARD TAB -->
+    <div id="tab-dashboard">
+      <div class="admin-header">
+        <h1 class="admin-page-title">Dashboard</h1>
+        <button class="btn-primary" onclick="adminTab('new', document.querySelector('.admin-nav li:nth-child(3) a'))">+ Add Project</button>
+      </div>
+
+      <div class="stats-cards">
+        <div class="stat-card">
+          <div class="big-num">6</div>
+          <div class="big-lbl">Total Projects</div>
+          <div class="trend">↑ 2 this month</div>
+        </div>
+        <div class="stat-card">
+          <div class="big-num">348</div>
+          <div class="big-lbl">Profile Views</div>
+          <div class="trend">↑ 12% this week</div>
+        </div>
+        <div class="stat-card">
+          <div class="big-num">14</div>
+          <div class="big-lbl">Contact Inquiries</div>
+          <div class="trend">↑ 3 new</div>
+        </div>
+        <div class="stat-card">
+          <div class="big-num">3</div>
+          <div class="big-lbl">Categories</div>
+          <div class="trend" style="color:var(--ink-muted)">Stable</div>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-section-title">Recent Projects</div>
+        <div class="admin-portfolio-list">
+          <div class="admin-portfolio-card">
+            <div class="admin-portfolio-thumb">Bloom Cosmetics</div>
+            <div class="admin-portfolio-info"><h4>Bloom Cosmetics Campaign</h4><p>Social Media · 2024</p></div>
+            <div class="admin-portfolio-actions"><button class="btn-sm" onclick="adminTab('new', document.querySelector('.admin-nav li:nth-child(3) a'))">Edit</button><button class="btn-sm danger">Delete</button></div>
+          </div>
+          <div class="admin-portfolio-card">
+            <div class="admin-portfolio-thumb" style="background:linear-gradient(135deg,#e8e4f0,#c9b8d4)">Radiant Tea</div>
+            <div class="admin-portfolio-info"><h4>Radiant Tea Branding</h4><p>Brand Identity · 2024</p></div>
+            <div class="admin-portfolio-actions"><button class="btn-sm">Edit</button><button class="btn-sm danger">Delete</button></div>
+          </div>
+          <div class="admin-portfolio-card">
+            <div class="admin-portfolio-thumb" style="background:linear-gradient(135deg,#e4eef5,#b8d4e8)">Zara Print</div>
+            <div class="admin-portfolio-info"><h4>Zara Summer Series</h4><p>Print Design · 2024</p></div>
+            <div class="admin-portfolio-actions"><button class="btn-sm">Edit</button><button class="btn-sm danger">Delete</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECTS TAB -->
+    <div id="tab-projects" style="display:none">
+      <div class="admin-header">
+        <h1 class="admin-page-title">Portfolio Projects</h1>
+        <button class="btn-primary" onclick="adminTab('new', document.querySelector('.admin-nav li:nth-child(3) a'))">+ Add New</button>
+      </div>
+      <div class="admin-card">
+        <div class="admin-section-title">All Projects (6)</div>
+        <div class="admin-portfolio-list">
+          <div class="admin-portfolio-card">
+            <div class="admin-portfolio-thumb">Bloom Cosmetics</div>
+            <div class="admin-portfolio-info"><h4>Bloom Cosmetics Campaign</h4><p>Social Media · Published</p></div>
+            <div class="admin-portfolio-actions"><button class="btn-sm">Edit</button><button class="btn-sm danger">Delete</button></div>
+          </div>
+          <div class="admin-portfolio-card">
+            <div class="admin-portfolio-thumb" style="background:linear-gradient(135deg,#e8e4f0,#c9b8d4)">Radiant Tea</div>
+            <div class="admin-portfolio-info"><h4>Radiant Tea Branding</h4><p>Brand Identity · Published</p></div>
+            <div class="admin-portfolio-actions"><button class="btn-sm">Edit</button><button class="btn-sm danger">Delete</button></div>
+          </div>
+          <div class="admin-portfolio-card">
+            <div class="admin-portfolio-thumb" style="background:linear-gradient(135deg,#e4eef5,#b8d4e8)">Zara Print</div>
+            <div class="admin-portfolio-info"><h4>Zara Summer Series</h4><p>Print · Published</p></div>
+            <div class="admin-portfolio-actions"><button class="btn-sm">Edit</button><button class="btn-sm danger">Delete</button></div>
+          </div>
+          <div class="admin-portfolio-card">
+            <div class="admin-portfolio-thumb" style="background:linear-gradient(135deg,#f0e8e4,#d4b8b8)">Nova Skincare</div>
+            <div class="admin-portfolio-info"><h4>Nova Skincare Ads</h4><p>Social Media · Published</p></div>
+            <div class="admin-portfolio-actions"><button class="btn-sm">Edit</button><button class="btn-sm danger">Delete</button></div>
+          </div>
+          <div class="admin-portfolio-card">
+            <div class="admin-portfolio-thumb" style="background:linear-gradient(135deg,#e8f0e4,#b8d4b8)">Verde Restaurant</div>
+            <div class="admin-portfolio-info"><h4>Verde Restaurant Identity</h4><p>Brand Identity · Published</p></div>
+            <div class="admin-portfolio-actions"><button class="btn-sm">Edit</button><button class="btn-sm danger">Delete</button></div>
+          </div>
+          <div class="admin-portfolio-card">
+            <div class="admin-portfolio-thumb" style="background:linear-gradient(135deg,#f0ece4,#d4c8b8)">Lagos Art Fair</div>
+            <div class="admin-portfolio-info"><h4>Lagos Art Fair Poster</h4><p>Print · Published</p></div>
+            <div class="admin-portfolio-actions"><button class="btn-sm">Edit</button><button class="btn-sm danger">Delete</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEW PROJECT TAB -->
+    <div id="tab-new" style="display:none">
+      <div class="admin-header">
+        <h1 class="admin-page-title">Add New Project</h1>
+        <button class="btn-primary" onclick="showToast('Project saved to Supabase!')">Save &amp; Publish</button>
+      </div>
+
+      <!-- BASIC INFO -->
+      <div class="admin-card">
+        <div class="admin-section-title">Basic Information</div>
+        <div class="admin-form-grid">
+          <div class="admin-field">
+            <label class="admin-label">Project Name</label>
+            <input class="admin-input" type="text" placeholder="e.g. Bloom Cosmetics Campaign">
+          </div>
+          <div class="admin-field">
+            <label class="admin-label">Category</label>
+            <select class="admin-select">
+              <option>Social Media Ads</option>
+              <option>Print Design</option>
+              <option>Brand Identity</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="admin-field admin-form-grid full" style="grid-column:1/-1">
+            <label class="admin-label">Short Description</label>
+            <textarea class="admin-textarea" placeholder="A brief 1–2 sentence summary that appears on the portfolio listing..."></textarea>
+          </div>
+          <div class="admin-field">
+            <label class="admin-label">Project Link (optional)</label>
+            <input class="admin-input" type="url" placeholder="https://...">
+          </div>
+          <div class="admin-field">
+            <label class="admin-label">Year</label>
+            <input class="admin-input" type="text" placeholder="2024">
+          </div>
+        </div>
+      </div>
+
+      <!-- TOOLS USED -->
+      <div class="admin-card">
+        <div class="admin-section-title">Tools Used</div>
+        <div class="admin-field">
+          <label class="admin-label">Add Tool</label>
+          <div style="display:flex;gap:0.75rem;">
+            <input class="admin-input" type="text" placeholder="e.g. Adobe Photoshop" id="tool-input" style="flex:1">
+            <button class="btn-primary" onclick="addTool()">Add</button>
+          </div>
+        </div>
+        <div class="tools-chips" id="tools-list">
+          <span class="chip">Photoshop <button class="chip-remove" onclick="this.parentElement.remove()">×</button></span>
+          <span class="chip">Illustrator <button class="chip-remove" onclick="this.parentElement.remove()">×</button></span>
+        </div>
+      </div>
+
+      <!-- COVER IMAGE -->
+      <div class="admin-card">
+        <div class="admin-section-title">Cover Image</div>
+        <div class="upload-zone" onclick="showToast('File upload powered by Supabase Storage')">
+          <div class="upload-icon">🖼️</div>
+          <strong style="font-size:0.85rem;color:var(--ink-light)">Click to upload cover image</strong>
+          <p>PNG, JPG, WebP up to 10MB</p>
+        </div>
+      </div>
+
+      <!-- SCREENGRABS -->
+      <div class="admin-card">
+        <div class="admin-section-title">Project Screenshots / Screengrabs</div>
+        <p style="font-size:0.82rem;color:var(--ink-muted);margin-bottom:1rem;">Upload multiple screenshots to showcase your work in detail. These appear in the project gallery.</p>
+        <div class="upload-zone" onclick="showToast('Multi-image upload via Supabase Storage')">
+          <div class="upload-icon">📸</div>
+          <strong style="font-size:0.85rem;color:var(--ink-light)">Click to upload screenshots</strong>
+          <p>Select multiple images · PNG, JPG, WebP</p>
+        </div>
+      </div>
+
+      <!-- RICH TEXT WRITEUP -->
+      <div class="admin-card">
+        <div class="admin-section-title">Project Write-up (Rich Text)</div>
+        <div class="rich-editor-mock">
+          <div class="rich-toolbar">
+            <button class="rich-btn"><b>B</b></button>
+            <button class="rich-btn"><i>I</i></button>
+            <button class="rich-btn"><u>U</u></button>
+            <button class="rich-btn" style="font-size:0.7rem;">H1</button>
+            <button class="rich-btn" style="font-size:0.7rem;">H2</button>
+            <button class="rich-btn" style="font-size:0.7rem;">H3</button>
+            <button class="rich-btn">—</button>
+            <button class="rich-btn">≡</button>
+            <button class="rich-btn">①</button>
+            <button class="rich-btn" style="font-size:0.7rem;">🔗</button>
+            <button class="rich-btn" style="font-size:0.7rem;">IMG</button>
+            <button class="rich-btn" style="font-size:0.7rem;">QUOTE</button>
+          </div>
+          <div class="rich-area" contenteditable="true" placeholder="Write a detailed description of your project — the brief, your process, the outcome...">
+            <p><strong>Project Overview</strong></p>
+            <p>Describe the project brief and the client's goals here...</p>
+          </div>
+        </div>
+        <p style="font-size:0.72rem;color:var(--ink-muted);margin-top:0.5rem;">Powered by TipTap rich text editor · Content stored in Supabase</p>
+      </div>
+
+      <div style="display:flex;gap:1rem;justify-content:flex-end;padding-bottom:3rem;">
+        <button class="btn-outline" onclick="showToast('Draft saved!')">Save as Draft</button>
+        <button class="btn-primary" onclick="showToast('Project published to portfolio!')">Publish Project</button>
+      </div>
+    </div>
+
+    <!-- SETTINGS TAB -->
+    <div id="tab-settings" style="display:none">
+      <div class="admin-header">
+        <h1 class="admin-page-title">Site Settings</h1>
+        <button class="btn-primary" onclick="showToast('Settings saved!')">Save Changes</button>
+      </div>
+      <div class="admin-card">
+        <div class="admin-section-title">Profile Information</div>
+        <div class="admin-form-grid">
+          <div class="admin-field">
+            <label class="admin-label">Display Name</label>
+            <input class="admin-input" value="Evie Adebayo">
+          </div>
+          <div class="admin-field">
+            <label class="admin-label">Title</label>
+            <input class="admin-input" value="Creative Designer">
+          </div>
+          <div class="admin-field" style="grid-column:1/-1">
+            <label class="admin-label">Bio</label>
+            <textarea class="admin-textarea">Hi! I'm Evie, a graphic designer. My primary goal as a designer is to tell a story through the visuals...</textarea>
+          </div>
+          <div class="admin-field">
+            <label class="admin-label">Email</label>
+            <input class="admin-input" value="evie@example.com">
+          </div>
+          <div class="admin-field">
+            <label class="admin-label">Location</label>
+            <input class="admin-input" value="Ibadan, Nigeria">
+          </div>
+        </div>
+      </div>
+      <div class="admin-card">
+        <div class="admin-section-title">Profile Photo</div>
+        <div class="upload-zone" onclick="showToast('Upload via Supabase Storage')">
+          <div class="upload-icon">👤</div>
+          <strong style="font-size:0.85rem;color:var(--ink-light)">Upload profile photo</strong>
+          <p>Recommended: Square, at least 800×800px</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ADMIN TOGGLE BUTTON -->
+<button class="admin-toggle" id="admin-btn" onclick="enterAdmin()">⚙ Admin</button>
+
+<script>
+  // ── PAGE ROUTING ──
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active-link'));
+    const map = { home:'nav-home', about:'nav-about', contact:'nav-contact', 'portfolio-list':'nav-portfolio', 'portfolio-detail':'nav-portfolio' };
+    if (map[id]) document.getElementById(map[id])?.classList.add('active-link');
+    document.getElementById('main-nav').classList.remove('hidden');
+    document.getElementById('admin-btn').style.display = 'block';
+    window.scrollTo(0,0);
+  }
+
+  // ── ADMIN ──
+  function enterAdmin() {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('admin').classList.add('active');
+    document.getElementById('main-nav').classList.add('hidden');
+    document.getElementById('admin-btn').style.display = 'none';
+  }
+
+  function exitAdmin() {
+    showPage('home');
+  }
+
+  function adminTab(name, el) {
+    document.querySelectorAll('[id^=tab-]').forEach(t => t.style.display = 'none');
+    document.getElementById('tab-' + name).style.display = 'block';
+    document.querySelectorAll('.admin-nav a').forEach(a => a.classList.remove('active'));
+    if (el) el.classList.add('active');
+  }
+
+  // ── TOOLS ──
+  function addTool() {
+    const inp = document.getElementById('tool-input');
+    if (!inp.value.trim()) return;
+    const chip = document.createElement('span');
+    chip.className = 'chip';
+    chip.innerHTML = inp.value + ' <button class="chip-remove" onclick="this.parentElement.remove()">×</button>';
+    document.getElementById('tools-list').appendChild(chip);
+    inp.value = '';
+  }
+
+  document.getElementById('tool-input')?.addEventListener('keydown', e => { if (e.key === 'Enter') addTool(); });
+
+  // ── FILTER BTNS ──
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  // ── TOAST ──
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+</script>
+</body>
+</html>

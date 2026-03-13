@@ -1,60 +1,49 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
 
 const NavContent = () => {
-	const [showMenu, setShowMenu] = useState(false);
+	const pathname = usePathname();
 
-
-	// Close menu when clicking outside
-	useEffect(() => {
-		if (!showMenu) return;
-		const close = () => setShowMenu(false);
-		document.addEventListener("click", close);
-		return () => document.removeEventListener("click", close);
-	}, [showMenu]);
+	const navItems = [
+		{ name: "Home", href: "/" },
+		{ name: "About", href: "/about" },
+		{ name: "Portfolio", href: "/portfolio" },
+		{ name: "Contact", href: "/contact" },
+	];
 
 	return (
-		<header className="border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 sticky top-0 z-50 w-full transition-all duration-300">
-			<div className="container flex h-16 items-center justify-between">
-				<div className="flex items-center gap-2">
-					<span className="text-xl font-bold tracking-tight text-primary">
-						EVIE
-					</span>
-				</div>
-				<nav className="hidden md:flex items-center gap-8 text-sm font-medium">
-					<a
-						href="/"
-						className="hover:text-primary transition-colors"
-					>
-						Home
-					</a>
-					<a
-						href="/projects"
-						className="hover:text-primary transition-colors"
-					>
-						Projects
-					</a>
-					<a
-						href="/about"
-						className="hover:text-primary transition-colors"
-					>
-						About
-					</a>
-					<a
-						href="/contact"
-						className="hover:text-primary transition-colors"
-					>
-						Contact
-					</a>
+		<header className="transition-all duration-300 py-6 bg-transparent">
+			<div className="w-site flex items-center justify-between">
+				<Link 
+					href="/" 
+					className="font-serif text-2xl font-normal tracking-wide text-foreground hover:opacity-80 transition-opacity"
+				>
+					Evie <span className="text-secondary-muted italic">Adebayo</span>
+				</Link>
+				
+				<nav className="hidden md:flex items-center gap-10 list-none">
+					{navItems.map((item) => {
+						const isActive = pathname === item.href;
+						return (
+							<Link
+								key={item.name}
+								href={item.href}
+								className={cn(
+									"font-sans text-[0.8rem] font-normal tracking-widest uppercase transition-colors duration-200 relative py-1",
+									"after:absolute after:-bottom-[3px] after:left-0 after:right-0 after:h-px after:bg-primary-deep after:origin-left after:transition-transform after:duration-300",
+									isActive 
+										? "text-primary-deep after:scale-x-100" 
+										: "text-secondary-light hover:text-primary-deep after:scale-x-0 hover:after:scale-x-100"
+								)}
+							>
+								{item.name}
+							</Link>
+						);
+					})}
 				</nav>
-				<div className="flex items-center gap-4">
-					<button className="px-4 py-2 bg-primary text-primary-foreground rounded-sm text-sm font-medium hover:bg-primary-deep transition-colors">
-						Get Started
-					</button>
-				</div>
 			</div>
 		</header>
 	);

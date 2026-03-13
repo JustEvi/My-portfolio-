@@ -1,48 +1,31 @@
 import React from 'react';
+import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="border-t bg-muted/30 py-12 px-6">
-      <div className="container mx-auto max-w-7xl">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-          <div className="col-span-1 md:col-span-1">
-            <h3 className="text-lg font-bold text-primary mb-4">EVIE</h3>
-            <p className="text-muted-foreground text-sm leading-relaxed">
-              Crafting high-performance digital experiences with cutting-edge technology and premium design.
-            </p>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-4 text-foreground">Resources</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#" className="hover:text-primary transition-colors">Documentation</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Guides</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">API Reference</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-4 text-foreground">Company</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#" className="hover:text-primary transition-colors">About</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Blog</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Careers</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-4 text-foreground">Connect</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#" className="hover:text-primary transition-colors">Twitter</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">GitHub</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">LinkedIn</a></li>
-            </ul>
-          </div>
+    <footer className="bg-foreground text-white/50 py-16 px-6 lg:px-16 border-t border-white/5">
+      <div className="container mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-[1fr_auto] gap-12 md:gap-8 items-end">
+        
+        <div>
+          <div className="font-serif text-3xl text-white italic font-light mb-3">Evie Adebayo</div>
+          <p className="text-[0.8rem] leading-[1.7] max-w-[340px]">
+            A graphic designer telling stories through visuals. Based in Ibadan, Nigeria. 
+            Available for freelance and collaborative work globally.
+          </p>
         </div>
-        <div className="border-t mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
-          <p>© 2024 Evie. All rights reserved.</p>
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-primary transition-colors">Terms of Service</a>
-          </div>
+
+        <div className="flex flex-col gap-2 md:text-right">
+          <Link href="/" className="text-[0.75rem] tracking-widest uppercase text-white/40 hover:text-primary transition-colors">Home</Link>
+          <Link href="/about" className="text-[0.75rem] tracking-widest uppercase text-white/40 hover:text-primary transition-colors">About</Link>
+          <Link href="/portfolio" className="text-[0.75rem] tracking-widest uppercase text-white/40 hover:text-primary transition-colors">Portfolio</Link>
+          <Link href="/contact" className="text-[0.75rem] tracking-widest uppercase text-white/40 hover:text-primary transition-colors">Contact</Link>
         </div>
+        
+      </div>
+
+      <div className="container mx-auto max-w-7xl border-t border-white/5 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p className="text-[0.72rem] text-white/25">© 2025 Evie Adebayo. All rights reserved.</p>
+        <p className="text-[0.68rem] text-white/20">Built with Next.js &middot; Supabase &middot; shadcn/ui</p>
       </div>
     </footer>
   );

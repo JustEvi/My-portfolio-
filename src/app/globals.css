@@ -99,6 +99,10 @@
   --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
   --sidebar-border: oklch(0.92 0.004 286.32);
   --sidebar-ring: oklch(0.705 0.015 286.067);
+
+  --tracking-normal: 0em;
+  --spacing: 0.25rem;
+  --site-width: 1180px;
 }
 
 .dark {
@@ -145,4 +149,96 @@
   html {
     @apply font-sans;
   }
+
+  .site-btn {
+    @apply cursor-pointer transition-all ease-in-out duration-300 scale-100;
+  }
+  .site-btn:active {
+    @apply scale-97;
+  }
+
+  .stay-middle {
+    @apply flex justify-center items-center;
+  }
+
+  .w-site {
+    max-width: var(--site-width);
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 1270px) {
+    .w-site {
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+    }
+  }
+  @media (max-width: 767px) {
+    .w-site {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+  @media (max-width: 430px) {
+    .w-site {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+
+  .fit-img {
+    @apply bg-center! bg-no-repeat! bg-cover! overflow-hidden!;
+  }
+  .sticky-nav {
+    @apply sticky;
+  }
+  .fixed-nav {
+    @apply fixed;
+  }
+  .fixed-nav,
+  .sticky-nav {
+    @apply top-0 w-full z-50 bg-transparent transition-all duration-300;
+  }
+  .fixed-nav.scrolled header,
+  .sticky-nav.scrolled header {
+    @apply bg-background/80 backdrop-blur-md border-b border-border py-3 shadow-2xl!;
+  }
+}
+
+/* ─── Keyframe Animations ─── */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes floatUp {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes softpulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+@keyframes urgentpulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+@keyframes msgPop {
+  from { opacity: 0; transform: translateY(8px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-5px); }
+}
+@keyframes drain {
+  from { width: 72%; }
+  to { width: 0%; }
+}
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
