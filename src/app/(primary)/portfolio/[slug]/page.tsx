@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import PortfolioDetailPage from "@/components/pages/portfolio-detail";
 import { createClient } from "@/lib/supabase/server";
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+	const { slug } = await params;
 	const supabase = await createClient();
 	const { data: project } = await supabase
 		.from('projects')
 		.select('name, short_description, cover_image_url')
-		.eq('slug', params.slug)
+		.eq('slug', slug)
 		.single();
 
 	if (!project) return { title: "Project Not Found" };
@@ -23,10 +24,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 	};
 }
 
-export default function SinglePortfolio({ params }: { params: { slug: string } }) {
-  // Normally the slug would be passed to the component to fetch data.
-  // We're mocking data within the component for Phase 2.
+export default async function SinglePortfolio({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   return (
-    <PortfolioDetailPage slug={params.slug} />
+    <PortfolioDetailPage slug={slug} />
   );
 }

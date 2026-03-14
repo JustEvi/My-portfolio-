@@ -6,10 +6,21 @@ import { Button } from '@/components/ui/button';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { Project } from '@/types';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export default function AdminProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [projectToDelete, setProjectToDelete] = useState<{ id: string, publicId: string | null } | null>(null);
 
   useEffect(() => {
     fetchProjects();
@@ -33,16 +44,16 @@ export default function AdminProjectsPage() {
     }
   };
 
-  const handleDelete = async (id: string, publicId: string | null) => {
-    if (!window.confirm("Are you sure you want to delete this project?")) return;
+  const executeDelete = async () => {
+    if (!projectToDelete) return;
 
     try {
       // First delete cover image from Cloudinary if it exists
-      if (publicId) {
+      if (projectToDelete.publicId) {
         await fetch('/api/delete-image', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ public_id: publicId }),
+          body: JSON.stringify({ public_id: projectToDelete.publicId }),
         });
       }
 
@@ -51,7 +62,7 @@ export default function AdminProjectsPage() {
       const { error } = await supabase
         .from('projects')
         .delete()
-        .eq('id', id);
+        .eq('id', projectToDelete.id);
 
       if (error) throw error;
       
@@ -60,7 +71,13 @@ export default function AdminProjectsPage() {
     } catch (error) {
       console.error('Error deleting project:', error);
       alert('Failed to delete project');
+    } finally {
+      setProjectToDelete(null);
     }
+  };
+
+  const handleDeleteClick = (id: string, publicId: string | null) => {
+    setProjectToDelete({ id, publicId });
   };
 
   return (
@@ -127,7 +144,7 @@ export default function AdminProjectsPage() {
                           </button>
                         </Link>
                         <button 
-                          onClick={() => handleDelete(project.id, project.cover_image_public_id)}
+                          onClick={() => handleDeleteClick(project.id, project.cover_image_public_id)}
                           className="p-1.5 text-muted-foreground hover:text-destructive transition-colors bg-muted rounded-md" aria-label="Delete"
                         >
                           <Trash2 size={16} />
@@ -141,6 +158,23 @@ export default function AdminProjectsPage() {
           </table>
         </div>
       </div>
+
+      <AlertDialog open={!!projectToDelete} onOpenChange={(open) => !open && setProjectToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the project and remove its cover image from the cloud.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={executeDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
