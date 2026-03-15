@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import NextTopLoader from 'nextjs-toploader';
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
@@ -59,6 +60,7 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
+                <NextTopLoader color="#1a1118" showSpinner={false} height={3} />
 				<TooltipProvider>{children}</TooltipProvider>
 			</body>
 		</html>
