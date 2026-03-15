@@ -167,214 +167,307 @@ export default function AdminEditProjectPage({ projectId }: { projectId: string 
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto py-8 mb-24 animate-in fade-in duration-500">
-      <div className="mb-8 flex items-center gap-4">
-        <NextLink href="/admin/projects" className="p-2 bg-muted rounded-full hover:bg-border transition-colors">
-          <ArrowLeft size={18} className="text-foreground" />
-        </NextLink>
-        <div>
-          <h1 className="font-serif text-3xl text-foreground">Edit Project</h1>
-          <p className="text-muted-foreground mt-1 text-sm">Update your portfolio piece details</p>
-        </div>
-      </div>
+		<div className="w-full max-w-4xl mx-auto py-8 mb-24 animate-in fade-in duration-500">
+			<div className="mb-8 flex items-center gap-4">
+				<NextLink
+					href="/admin/projects"
+					className="p-2 bg-muted rounded-full hover:bg-border transition-colors"
+				>
+					<ArrowLeft size={18} className="text-foreground" />
+				</NextLink>
+				<div>
+					<h1 className="font-serif text-3xl text-foreground">
+						Edit Project
+					</h1>
+					<p className="text-muted-foreground mt-1 text-sm">
+						Update your portfolio piece details
+					</p>
+				</div>
+			</div>
 
-      <form onSubmit={handleSubmit} className="space-y-12">
-        {/* Basic Information */}
-        <section className="bg-card border border-border p-6 md:p-8 rounded-lg shadow-sm space-y-6">
-          <h2 className="font-serif text-2xl text-foreground border-b border-border pb-4">Basic Information</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <Label htmlFor="name" className="text-xs uppercase tracking-widest text-muted-foreground">Project Name *</Label>
-              <Input 
-                 id="name" 
-                 name="name" 
-                 value={name}
-                 onChange={(e) => setName(e.target.value)}
-                 required 
-                 placeholder="e.g. Lumina Skincare" 
-                 className="h-11" 
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="category" className="text-xs uppercase tracking-widest text-muted-foreground">Category *</Label>
-              <select 
-                id="category" 
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                className="flex h-11 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {categories.length > 0 ? (
-                  categories.map(cat => (
-                    <option key={cat.name} value={cat.name}>{cat.name}</option>
-                  ))
-                ) : (
-                  <option value="">Loading categories...</option>
-                )}
-              </select>
-            </div>
-            
-            <div className="space-y-2 md:col-span-2">
-              <Label htmlFor="short_description" className="text-xs uppercase tracking-widest text-muted-foreground">Short Description (for listing cards)</Label>
-              <Textarea 
-                 id="short_description" 
-                 name="short_description" 
-                 value={shortDescription}
-                 onChange={(e) => setShortDescription(e.target.value)}
-                 placeholder="A brief 1-2 sentence summary" 
-                 className="resize-none h-20" 
-              />
-            </div>
+			<form onSubmit={handleSubmit} className="space-y-12">
+				{/* Basic Information */}
+				<section className="bg-card border border-border p-6 md:p-8 rounded-lg shadow-sm space-y-6">
+					<h2 className="font-serif text-2xl text-foreground border-b border-border pb-4">
+						Basic Information
+					</h2>
 
-            <div className="space-y-2">
-              <Label htmlFor="year" className="text-xs uppercase tracking-widest text-muted-foreground">Year</Label>
-              <Input 
-                 id="year" 
-                 name="year" 
-                 value={year}
-                 onChange={(e) => setYear(e.target.value)}
-                 placeholder="e.g. 2024" 
-                 className="h-11" 
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="project_link" className="text-xs uppercase tracking-widest text-muted-foreground">Live URL (optional)</Label>
-              <Input 
-                 id="project_link" 
-                 name="project_link" 
-                 type="url" 
-                 value={projectLink}
-                 onChange={(e) => setProjectLink(e.target.value)}
-                 placeholder="https://" 
-                 className="h-11" 
-              />
-            </div>
-            
-            <div className="space-y-2 md:col-span-2">
-              <Label htmlFor="tools" className="text-xs uppercase tracking-widest text-muted-foreground">Tools Used (comma separated)</Label>
-              <Input 
-                 id="tools" 
-                 name="tools" 
-                 value={toolsStr}
-                 onChange={(e) => setToolsStr(e.target.value)}
-                 placeholder="Photoshop, Illustrator, Figma" 
-                 className="h-11" 
-              />
-            </div>
-          </div>
-        </section>
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+						<div className="space-y-2">
+							<Label
+								htmlFor="name"
+								className="text-xs uppercase tracking-widest text-muted-foreground"
+							>
+								Project Name *
+							</Label>
+							<Input
+								id="name"
+								name="name"
+								value={name}
+								onChange={(e) => setName(e.target.value)}
+								required
+								placeholder="e.g. Lumina Skincare"
+								className="h-11"
+							/>
+						</div>
 
-        {/* Media & Content */}
-        <section className="bg-card border border-border p-6 md:p-8 rounded-lg shadow-sm space-y-6">
-          <h2 className="font-serif text-2xl text-foreground border-b border-border pb-4">Media & Content</h2>
-          
-          <div className="space-y-4">
-            <Label className="text-xs uppercase tracking-widest text-muted-foreground">Cover Image</Label>
-            <FileUpload 
-              label="Upload Cover Image"
-              defaultValue={coverImage?.url || undefined}
-              onUploadSuccess={(result) => setCoverImage({ url: result.secure_url, public_id: result.public_id })}
-              onRemove={() => setCoverImage(null)}
-              className="w-full"
-            />
-          </div>
+						<div className="space-y-2">
+							<Label
+								htmlFor="category"
+								className="text-xs uppercase tracking-widest text-muted-foreground"
+							>
+								Category *
+							</Label>
+							<select
+								id="category"
+								value={category}
+								onChange={(e) => setCategory(e.target.value)}
+								className="flex h-11 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+							>
+								{categories.length > 0 ? (
+									categories.map((cat) => (
+										<option key={cat.name} value={cat.name}>
+											{cat.name}
+										</option>
+									))
+								) : (
+									<option value="">
+										Loading categories...
+									</option>
+								)}
+							</select>
+						</div>
 
-          <div className="space-y-4 pt-6">
-            <Label className="text-xs uppercase tracking-widest text-muted-foreground">Project Writeup</Label>
-            <RichTextEditor 
-              content={writeup} 
-              onChange={(content) => setWriteup(content)} 
-              placeholder="Detail the challenge, process, and solution..."
-            />
-          </div>
+						<div className="space-y-2 md:col-span-2">
+							<Label
+								htmlFor="short_description"
+								className="text-xs uppercase tracking-widest text-muted-foreground"
+							>
+								Short Description (for listing cards)
+							</Label>
+							<Textarea
+								id="short_description"
+								name="short_description"
+								value={shortDescription}
+								onChange={(e) =>
+									setShortDescription(e.target.value)
+								}
+								placeholder="A brief 1-2 sentence summary"
+								className="resize-none h-20"
+							/>
+						</div>
 
-          {/* Screengrabs (Additional Images) */}
-          <div className="space-y-4 pt-6">
-            <Label className="text-xs uppercase tracking-widest text-muted-foreground">Additional Images (Screengrabs)</Label>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {screengrabs.map((grab, index) => (
-                <div key={index} className="relative border border-border rounded-sm overflow-hidden bg-card flex flex-col group">
-                  <div className="relative w-full aspect-video bg-muted">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={grab.url} alt={`Screengrab ${index}`} className="w-full h-full object-cover" />
-                    <button 
-                      type="button" 
-                      onClick={() => removeScreengrab(index)}
-                      className="absolute top-2 right-2 bg-destructive text-destructive-foreground p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <X size={14} />
-                    </button>
-                  </div>
-                  <div className="p-3">
-                    <Input 
-                      placeholder="Image caption (optional)" 
-                      value={grab.caption}
-                      onChange={(e) => updateScreengrabCaption(index, e.target.value)}
-                      className="h-8 text-xs bg-transparent border-0 border-b border-border rounded-none focus-visible:ring-0 px-1"
-                    />
-                  </div>
-                </div>
-              ))}
+						<div className="space-y-2">
+							<Label
+								htmlFor="year"
+								className="text-xs uppercase tracking-widest text-muted-foreground"
+							>
+								Year
+							</Label>
+							<Input
+								id="year"
+								name="year"
+								value={year}
+								onChange={(e) => setYear(e.target.value)}
+								placeholder="e.g. 2024"
+								className="h-11"
+							/>
+						</div>
 
-              <FileUpload 
-                label="Add Screenshot"
-                onUploadSuccess={handleScreengrabUpload}
-                className="w-full aspect-video"
-              />
-            </div>
-          </div>
-        </section>
+						<div className="space-y-2">
+							<Label
+								htmlFor="project_link"
+								className="text-xs uppercase tracking-widest text-muted-foreground"
+							>
+								Live URL (optional)
+							</Label>
+							<Input
+								id="project_link"
+								name="project_link"
+								type="url"
+								value={projectLink}
+								onChange={(e) => setProjectLink(e.target.value)}
+								placeholder="https://"
+								className="h-11"
+							/>
+						</div>
 
-        {/* Publishing */}
-        <section className="bg-card border border-border p-6 md:p-8 rounded-lg shadow-sm">
-          <div className="flex flex-col md:flex-row gap-8 justify-between items-start md:items-center">
-            
-            <div className="flex gap-12 items-center">
-              <div className="space-y-2 w-32">
-                <Label htmlFor="display_order" className="text-xs uppercase tracking-widest text-muted-foreground">List Order</Label>
-                <Input 
-                   id="display_order" 
-                   name="display_order" 
-                   type="number" 
-                   value={displayOrder}
-                   onChange={(e) => setDisplayOrder(parseInt(e.target.value) || 0)} 
-                   className="h-11" 
-                />
-              </div>
-              
-              <div className="space-y-3">
-                <Label className="text-xs uppercase tracking-widest text-muted-foreground block">Visibility</Label>
-                <div className="flex items-center space-x-2">
-                  <Switch 
-                    id="published" 
-                    checked={published} 
-                    onCheckedChange={setPublished} 
-                  />
-                  <Label htmlFor="published" className="text-sm font-normal cursor-pointer">
-                    {published ? "Published (Visible to public)" : "Draft (Hidden)"}
-                  </Label>
-                </div>
-              </div>
-            </div>
+						<div className="space-y-2 md:col-span-2">
+							<Label
+								htmlFor="tools"
+								className="text-xs uppercase tracking-widest text-muted-foreground"
+							>
+								Tools Used (comma separated)
+							</Label>
+							<Input
+								id="tools"
+								name="tools"
+								value={toolsStr}
+								onChange={(e) => setToolsStr(e.target.value)}
+								placeholder="Photoshop, Illustrator, Figma"
+								className="h-11"
+							/>
+						</div>
+					</div>
+				</section>
 
-            <div className="flex gap-4 w-full md:w-auto pt-4 md:pt-0 border-t md:border-t-0 border-border">
-              <NextLink href="/admin/projects">
-                <Button type="button" variant="outline" className="w-full md:w-auto h-12 px-8 uppercase tracking-widest text-xs rounded-none border-border">
-                  Cancel
-                </Button>
-              </NextLink>
-              <Button type="submit" disabled={isSubmitting} className="w-full md:w-auto h-12 px-8 bg-foreground text-primary-blush hover:bg-secondary-muted uppercase tracking-widest text-xs rounded-none">
-                {isSubmitting ? "Saving..." : "Save Changes"}
-              </Button>
-            </div>
-            
-          </div>
-        </section>
-        
-      </form>
-    </div>
+				{/* Media & Content */}
+				<section className="bg-card border border-border p-6 md:p-8 rounded-lg shadow-sm space-y-6">
+					<h2 className="font-serif text-2xl text-foreground border-b border-border pb-4">
+						Media & Content
+					</h2>
+
+					<div className="space-y-4">
+						<Label className="text-xs uppercase tracking-widest text-muted-foreground">
+							Cover Image
+						</Label>
+						<FileUpload
+							label="Upload Cover Image"
+							defaultValue={coverImage?.url || undefined}
+							onUploadSuccess={(result) =>
+								setCoverImage({
+									url: result.secure_url,
+									public_id: result.public_id,
+								})
+							}
+							onRemove={() => setCoverImage(null)}
+							className="w-full"
+						/>
+					</div>
+
+					<div className="space-y-4 pt-6">
+						<Label className="text-xs uppercase tracking-widest text-muted-foreground">
+							Project Writeup
+						</Label>
+						<RichTextEditor
+							content={writeup}
+							onChange={(content) => setWriteup(content)}
+							placeholder="Detail the challenge, process, and solution..."
+						/>
+					</div>
+
+					{/* Screengrabs (Additional Images) */}
+					<div className="space-y-4 pt-6">
+						<Label className="text-xs uppercase tracking-widest text-muted-foreground">
+							Additional Images (Screengrabs)
+						</Label>
+
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+							{screengrabs.map((grab, index) => (
+								<div
+									key={index}
+									className="relative border border-border rounded-sm overflow-hidden bg-card flex flex-col group"
+								>
+									<div className="relative w-full aspect-video bg-muted">
+										{/* eslint-disable-next-line @next/next/no-img-element */}
+										<img
+											src={grab.url}
+											alt={`Screengrab ${index}`}
+											className="w-full h-full object-cover"
+										/>
+										<button
+											type="button"
+											onClick={() =>
+												removeScreengrab(index)
+											}
+											className="absolute top-2 right-2 bg-destructive text-destructive-foreground p-1.5 rounded-full opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity"
+										>
+											<X size={14} />
+										</button>
+									</div>
+									<div className="p-3">
+										<Input
+											placeholder="Image caption (optional)"
+											value={grab.caption}
+											onChange={(e) =>
+												updateScreengrabCaption(
+													index,
+													e.target.value,
+												)
+											}
+											className="h-8 text-xs bg-transparent border-0 border-b border-border rounded-none focus-visible:ring-0 px-1"
+										/>
+									</div>
+								</div>
+							))}
+
+							<FileUpload
+								label="Add Screenshot"
+								onUploadSuccess={handleScreengrabUpload}
+								className="w-full aspect-video"
+							/>
+						</div>
+					</div>
+				</section>
+
+				{/* Publishing */}
+				<section className="bg-card border border-border p-6 md:p-8 rounded-lg shadow-sm">
+					<div className="flex flex-col md:flex-row gap-8 justify-between items-start md:items-center">
+						<div className="flex gap-12 items-center">
+							<div className="space-y-2 w-32">
+								<Label
+									htmlFor="display_order"
+									className="text-xs uppercase tracking-widest text-muted-foreground"
+								>
+									List Order
+								</Label>
+								<Input
+									id="display_order"
+									name="display_order"
+									type="number"
+									value={displayOrder}
+									onChange={(e) =>
+										setDisplayOrder(
+											parseInt(e.target.value) || 0,
+										)
+									}
+									className="h-11"
+								/>
+							</div>
+
+							<div className="space-y-3">
+								<Label className="text-xs uppercase tracking-widest text-muted-foreground block">
+									Visibility
+								</Label>
+								<div className="flex items-center space-x-2">
+									<Switch
+										id="published"
+										checked={published}
+										onCheckedChange={setPublished}
+									/>
+									<Label
+										htmlFor="published"
+										className="text-sm font-normal cursor-pointer"
+									>
+										{published
+											? "Published (Visible to public)"
+											: "Draft (Hidden)"}
+									</Label>
+								</div>
+							</div>
+						</div>
+
+						<div className="flex gap-4 w-full md:w-auto pt-4 md:pt-0 border-t md:border-t-0 border-border">
+							<NextLink href="/admin/projects">
+								<Button
+									type="button"
+									variant="outline"
+									className="w-full md:w-auto h-12 px-8 uppercase tracking-widest text-xs rounded-none border-border"
+								>
+									Cancel
+								</Button>
+							</NextLink>
+							<Button
+								type="submit"
+								disabled={isSubmitting}
+								className="w-full md:w-auto h-12 px-8 bg-foreground text-primary-blush hover:bg-secondary-muted uppercase tracking-widest text-xs rounded-none"
+							>
+								{isSubmitting ? "Saving..." : "Save Changes"}
+							</Button>
+						</div>
+					</div>
+				</section>
+			</form>
+		</div>
   );
 }
