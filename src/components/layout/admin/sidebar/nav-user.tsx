@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { MoreVertical, ChevronUp, LogOut, User as UserIcon, Lock } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -59,10 +60,6 @@ export function NavUser() {
 		} catch (error) {
 			toast.error("Failed to logout. Please try again.");
 		}
-	};
-
-	const handleAccountClick = () => {
-		router.push("/admin/settings");
 	};
 
 	return (
@@ -124,12 +121,17 @@ export function NavUser() {
 
 						<DropdownMenuGroup>
 							<DropdownMenuItem
-								className="cursor-pointer hover:bg-muted"
-								onClick={handleAccountClick}
-							>
-								<UserIcon className="mr-2 h-4 w-4" />
-								<span>Settings</span>
-							</DropdownMenuItem>
+                                render={(props: React.HTMLAttributes<HTMLElement>) => (
+                                    <Link
+                                        href="/admin/settings"
+                                        className="cursor-pointer hover:bg-muted flex w-full items-center"
+                                        {...props}
+                                    >
+                                        <UserIcon className="mr-2 h-4 w-4" />
+                                        <span>Settings</span>
+                                    </Link>
+                                )}
+                            />
 						</DropdownMenuGroup>
 
 						<DropdownMenuSeparator className="bg-border" />

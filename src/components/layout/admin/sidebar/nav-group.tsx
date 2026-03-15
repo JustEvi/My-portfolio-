@@ -134,14 +134,24 @@ export const NavGroup = ({ title, items }: NavGroupProps) => {
                 */}
 								<SidebarMenuButton
 									tooltip={item.title}
-									onClick={() => handleNavigation(item.url)}
 									className={cn(
 										`cursor-pointer ${item.isActive && "bg-primary text-primary-foreground"}`,
 									)}
-								>
-									{item.icon && <item.icon />}
-									<span>{item.title}</span>
-								</SidebarMenuButton>
+									render={(props: React.HTMLAttributes<HTMLElement>) => (
+										<Link
+											href={item.url}
+											{...props}
+											onClick={() => {
+												if (isMobile) {
+													setOpenMobile(false);
+												}
+											}}
+										>
+											{item.icon && <item.icon />}
+											<span>{item.title}</span>
+										</Link>
+									)}
+								/>
 							</SidebarMenuItem>
 						),
 					)}
