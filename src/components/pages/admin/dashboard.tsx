@@ -7,6 +7,7 @@ import { FolderKanban, Tags, Image as ImageIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import { Project, Category } from '@/types';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 export default function AdminDashboardPage() {
   const [stats, setStats] = useState({
@@ -75,9 +76,16 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="w-full max-w-6xl mx-auto py-8 animate-in fade-in duration-500">
-      <div className="mb-8">
-        <h1 className="font-serif text-3xl text-foreground">Dashboard</h1>
-        <p className="text-muted-foreground mt-1 text-sm">Overview of your portfolio content</p>
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h1 className="font-serif text-3xl text-foreground">Dashboard</h1>
+          <p className="text-muted-foreground mt-1 text-sm">Overview of your portfolio content</p>
+        </div>
+        <Link href="/">
+          <Button className="bg-foreground text-primary-pale hover:bg-secondary-muted uppercase tracking-widest text-xs rounded-none lg:px-6">
+            View Website
+          </Button>
+        </Link>
       </div>
 
       {isLoading ? (

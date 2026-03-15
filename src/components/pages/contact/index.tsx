@@ -5,7 +5,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 
-const ContactPage = () => {
+interface SocialLink {
+  id: string;
+  platform: string;
+  url: string;
+}
+
+const ContactPage = ({ email = "hello@evieadebayo.com", socialLinks = [] }: { email?: string, socialLinks?: SocialLink[] }) => {
   const [status, setStatus] = useState<"idle" | "submitting" | "success">("idle");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -31,17 +37,23 @@ const ContactPage = () => {
         
         <div className="mb-10">
           <h4 className="font-sans text-[0.75rem] uppercase tracking-widest opacity-50 mb-2">Email</h4>
-          <a href="mailto:hello@evieadebayo.com" className="text-primary-pale hover:text-primary-deep transition-colors text-[1.2rem]">
-            hello@evieadebayo.com
+          <a href={`mailto:${email}`} className="text-primary-pale hover:text-primary-deep transition-colors text-[1.2rem]">
+            {email}
           </a>
         </div>
         
         <div>
           <h4 className="font-sans text-[0.75rem] uppercase tracking-widest opacity-50 mb-4">Socials</h4>
           <div className="flex gap-6">
-            <a href="#" className="font-sans text-[0.85rem] uppercase tracking-wider text-primary-pale hover:text-primary-deep transition-colors">Instagram</a>
-            <a href="#" className="font-sans text-[0.85rem] uppercase tracking-wider text-primary-pale hover:text-primary-deep transition-colors">LinkedIn</a>
-            <a href="#" className="font-sans text-[0.85rem] uppercase tracking-wider text-primary-pale hover:text-primary-deep transition-colors">Behance</a>
+            {socialLinks.length > 0 ? (
+              socialLinks.map((link) => (
+                <a key={link.id} href={link.url} target="_blank" rel="noreferrer" className="font-sans text-[0.85rem] uppercase tracking-wider text-primary-pale hover:text-primary-deep transition-colors">
+                  {link.platform}
+                </a>
+              ))
+            ) : (
+              <span className="font-sans text-[0.85rem] uppercase tracking-wider text-muted-foreground">None listed</span>
+            )}
           </div>
         </div>
       </div>

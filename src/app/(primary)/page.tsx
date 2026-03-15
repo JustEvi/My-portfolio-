@@ -31,11 +31,20 @@ export async function generateMetadata(): Promise<Metadata> {
 	};
 }
 
-const HomePage = () => {
+const HomePage = async () => {
+	const supabase = await createClient();
+	const { data: content } = await supabase
+		.from('page_content')
+		.select('content')
+		.eq('page_slug', 'home')
+		.eq('section_name', 'expertise_list')
+		.single();
+
+	const expertiseJsonString = content?.content || null;
 
 	return (
 		<>
-			<Home />
+			<Home expertiseJson={expertiseJsonString} />
 		</>
 	);
 };

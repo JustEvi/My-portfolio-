@@ -18,6 +18,23 @@ export default async function AboutPage() {
   const bioQuote = contentMap.about_quote?.content || "Design is not just what it looks like and feels like. Design is how it works.";
   const bioText = contentMap.about_bio_text?.content || "Evie is a creative director and visual designer based in New York. With over 8 years of experience, she specializes in creating robust visual identities and digital experiences for lifestyle, tech, and cultural brands.";
   const imageUrl = contentMap.about_image?.image_url || 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=2564&auto=format&fit=crop';
+  
+  let statsData = {
+    enabled: true,
+    stats: [
+      { value: "12+", label: "Years Exp." },
+      { value: "80+", label: "Projects" },
+      { value: "15", label: "Awards" }
+    ]
+  };
+
+  try {
+    if (contentMap.about_stats?.content) {
+      statsData = JSON.parse(contentMap.about_stats.content);
+    }
+  } catch (e) {
+    console.error("Failed to parse about stats", e);
+  }
 
   return (
     <main className="w-full">
@@ -48,20 +65,16 @@ export default async function AboutPage() {
               </p>
             </div>
             
-            <div className="grid grid-cols-3 gap-8 mt-16 pt-16 border-t border-border">
-              <div>
-                <div className="font-serif text-4xl text-foreground mb-2">12+</div>
-                <div className="font-sans text-[0.7rem] uppercase tracking-widest text-muted-foreground">Years Exp.</div>
+            {statsData.enabled && statsData.stats && statsData.stats.length > 0 && (
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-8 mt-16 pt-16 border-t border-border">
+                {statsData.stats.map((stat: any, i: number) => (
+                  <div key={i}>
+                    <div className="font-serif text-4xl text-foreground mb-2">{stat.value}</div>
+                    <div className="font-sans text-[0.7rem] uppercase tracking-widest text-muted-foreground">{stat.label}</div>
+                  </div>
+                ))}
               </div>
-              <div>
-                <div className="font-serif text-4xl text-foreground mb-2">80+</div>
-                <div className="font-sans text-[0.7rem] uppercase tracking-widest text-muted-foreground">Projects</div>
-              </div>
-              <div>
-                <div className="font-serif text-4xl text-foreground mb-2">15</div>
-                <div className="font-sans text-[0.7rem] uppercase tracking-widest text-muted-foreground">Awards</div>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </PageSection>

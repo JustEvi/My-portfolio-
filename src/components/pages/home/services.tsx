@@ -1,7 +1,7 @@
 import PageSection from '@/components/ui/custom/page-section';
 
-const Services = () => {
-  const services = [
+const Services = ({ expertiseJson }: { expertiseJson?: string | null }) => {
+  let services = [
     {
       title: "Branding",
       items: ["Visual Identity", "Brand Strategy", "Logo Design", "Brand Guidelines"]
@@ -15,6 +15,17 @@ const Services = () => {
       items: ["Campaign Visuals", "Photography Styling", "Digital Illustration", "Motion Concepts"]
     }
   ];
+
+  try {
+    if (expertiseJson) {
+      const parsed = JSON.parse(expertiseJson);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        services = parsed;
+      }
+    }
+  } catch (e) {
+    console.error("Failed to parse expertise json", e);
+  }
 
   return (
     <PageSection 

@@ -7,10 +7,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
-import { Save } from 'lucide-react';
+import { Save, Plus, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FileUpload } from '@/components/ui/custom/file-upload';
+import { Switch } from '@/components/ui/switch';
 
 export default function AdminPagesPage() {
   const [content, setContent] = useState<Record<string, PageContent>>({});
@@ -72,6 +73,19 @@ export default function AdminPagesPage() {
         id: prev[key]?.id || ''
       }
     }));
+  };
+
+  const getParsedJSON = (pageSlug: string, sectionName: string, defaultVal: any) => {
+    try {
+      const str = content[`${pageSlug}_${sectionName}`]?.content;
+      return str ? JSON.parse(str) : defaultVal;
+    } catch {
+      return defaultVal;
+    }
+  };
+
+  const handleJSONChange = (pageSlug: string, sectionName: string, jsonData: any) => {
+    handleTextChange(pageSlug, sectionName, JSON.stringify(jsonData));
   };
 
   const handleSave = async () => {
@@ -191,6 +205,73 @@ export default function AdminPagesPage() {
                 </div>
              </div>
           </div>
+
+           {/* Home Expertise Section */}
+           <div className="bg-card border border-border p-6 md:p-8 rounded-lg shadow-sm space-y-6 mt-8">
+             <div className="flex justify-between items-center border-b border-border pb-4">
+               <h2 className="font-serif text-xl">Selected Expertise</h2>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => {
+                      const current = getParsedJSON('home', 'expertise_list', []);
+                      current.push({ title: '', items: [] });
+                      handleJSONChange('home', 'expertise_list', current);
+                  }}
+                  className="uppercase tracking-widest text-[10px] h-8"
+               >
+                 <Plus size={14} className="mr-1" /> Add Category
+               </Button>
+             </div>
+
+             <div className="space-y-6">
+               {getParsedJSON('home', 'expertise_list', []).map((expertise: any, index: number) => (
+                 <div key={index} className="flex gap-6 items-start border border-border p-4 rounded-md relative group">
+                   <button 
+                      onClick={() => {
+                          const current = getParsedJSON('home', 'expertise_list', []);
+                          const updated = current.filter((_: any, i: number) => i !== index);
+                          handleJSONChange('home', 'expertise_list', updated);
+                      }}
+                      className="absolute -top-3 -right-3 bg-destructive text-destructive-foreground p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                    
+                   <div className="w-1/3 space-y-2">
+                     <label className="text-[10px] uppercase tracking-widest text-muted-foreground block">Category Title</label>
+                     <Input 
+                       placeholder="e.g. Branding" 
+                       value={expertise.title}
+                       onChange={(e) => {
+                          const current = getParsedJSON('home', 'expertise_list', []);
+                          current[index].title = e.target.value;
+                          handleJSONChange('home', 'expertise_list', current);
+                       }}
+                       className="h-10 border-border font-serif"
+                     />
+                   </div>
+                   <div className="flex-1 space-y-2">
+                     <label className="text-[10px] uppercase tracking-widest text-muted-foreground block">Expertise Items (One per line)</label>
+                     <Textarea 
+                       placeholder="Visual Identity&#10;Brand Strategy" 
+                       value={Array.isArray(expertise.items) ? expertise.items.join('\n') : ''}
+                       onChange={(e) => {
+                          const current = getParsedJSON('home', 'expertise_list', []);
+                          current[index].items = e.target.value.split('\n');
+                          handleJSONChange('home', 'expertise_list', current);
+                       }}
+                       className="min-h-[100px] border-border resize-y"
+                     />
+                   </div>
+                 </div>
+               ))}
+               
+               {getParsedJSON('home', 'expertise_list', []).length === 0 && (
+                 <p className="text-sm text-muted-foreground text-center py-4">No expertise categories added yet.</p>
+               )}
+             </div>
+           </div>
         </TabsContent>
         
         <TabsContent value="about" className="space-y-8 mt-0 focus-visible:outline-none focus-visible:ring-0">
