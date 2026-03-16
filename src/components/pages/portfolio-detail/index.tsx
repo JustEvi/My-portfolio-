@@ -87,12 +87,13 @@ export default async function PortfolioDetailPage({ slug }: { slug: string }) {
         
         <div className="mb-24 animate-in fade-in duration-1000 delay-300">
           {project.cover_image_url && (
-            <div className="relative w-full h-[50vh] md:h-[80vh] mb-12 md:mb-24 rounded-sm overflow-hidden bg-muted">
+            <div className="w-full mb-12 md:mb-24 rounded-sm overflow-hidden flex justify-center bg-muted/20">
               <Image
                 src={project.cover_image_url}
                 alt={project.name}
-                fill
-                className="object-cover"
+                width={1920}
+                height={1080}
+                className="w-full h-auto max-h-[85vh] object-contain"
                 priority
               />
             </div>
@@ -108,12 +109,13 @@ export default async function PortfolioDetailPage({ slug }: { slug: string }) {
           {project.screengrabs && project.screengrabs.length > 0 && (
             <div className="grid grid-cols-1 gap-12 md:gap-24">
               {project.screengrabs.map((grab: any, idx: number) => (
-                <div key={idx} className="relative w-full h-[50vh] md:h-[80vh] rounded-sm overflow-hidden bg-muted">
+                <div key={idx} className="relative w-full rounded-sm overflow-hidden flex justify-center bg-muted/20">
                   <Image
                     src={grab.url}
                     alt={grab.caption || `${project.name} screengrab ${idx + 1}`}
-                    fill
-                    className="object-cover"
+                    width={1920}
+                    height={1080}
+                    className="w-full h-auto max-h-[85vh] object-contain"
                   />
                   {grab.caption && (
                     <div className="absolute bottom-4 right-4 bg-background/90 backdrop-blur-sm px-4 py-2 rounded-full text-xs text-foreground font-sans tracking-widest uppercase shadow-lg">

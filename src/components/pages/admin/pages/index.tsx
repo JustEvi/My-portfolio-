@@ -311,6 +311,85 @@ export default function AdminPagesPage() {
                 </div>
              </div>
           </div>
+
+          {/* About Stats Section */}
+          <div className="bg-card border border-border p-6 md:p-8 rounded-lg shadow-sm space-y-6 mt-8">
+            <div className="flex justify-between items-center border-b border-border pb-4">
+              <h2 className="font-serif text-xl">Key Statistics</h2>
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <Switch 
+                    id="stats-enabled" 
+                    checked={getParsedJSON('about', 'about_stats', { enabled: true, stats: [] }).enabled}
+                    onCheckedChange={(checked) => {
+                      const current = getParsedJSON('about', 'about_stats', { enabled: true, stats: [] });
+                      handleJSONChange('about', 'about_stats', { ...current, enabled: checked });
+                    }}
+                  />
+                  <label htmlFor="stats-enabled" className="text-xs uppercase tracking-widest text-muted-foreground mr-4">Show Stats</label>
+                </div>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => {
+                      const current = getParsedJSON('about', 'about_stats', { enabled: true, stats: [] });
+                      if (!current.stats) current.stats = [];
+                      current.stats.push({ value: '', label: '' });
+                      handleJSONChange('about', 'about_stats', current);
+                  }}
+                  className="uppercase tracking-widest text-[10px] h-8"
+                >
+                  <Plus size={14} className="mr-1" /> Add Stat
+                </Button>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+               {(getParsedJSON('about', 'about_stats', { enabled: true, stats: [] }).stats || []).map((stat: any, index: number) => (
+                 <div key={index} className="flex gap-4 items-end border border-border p-4 rounded-md relative group">
+                   <button 
+                      onClick={() => {
+                          const current = getParsedJSON('about', 'about_stats', { enabled: true, stats: [] });
+                          current.stats = current.stats.filter((_: any, i: number) => i !== index);
+                          handleJSONChange('about', 'about_stats', current);
+                      }}
+                      className="absolute -top-3 -right-3 bg-destructive text-destructive-foreground p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                    
+                   <div className="w-1/3">
+                     <label className="text-[10px] uppercase tracking-widest text-muted-foreground block mb-2">Value (e.g. 12+)</label>
+                     <Input 
+                       value={stat.value}
+                       onChange={(e) => {
+                          const current = getParsedJSON('about', 'about_stats', { enabled: true, stats: [] });
+                          current.stats[index].value = e.target.value;
+                          handleJSONChange('about', 'about_stats', current);
+                       }}
+                       className="h-10 border-border font-serif text-lg"
+                     />
+                   </div>
+                   <div className="flex-1">
+                     <label className="text-[10px] uppercase tracking-widest text-muted-foreground block mb-2">Label (e.g. Years Exp.)</label>
+                     <Input 
+                       value={stat.label}
+                       onChange={(e) => {
+                          const current = getParsedJSON('about', 'about_stats', { enabled: true, stats: [] });
+                          current.stats[index].label = e.target.value;
+                          handleJSONChange('about', 'about_stats', current);
+                       }}
+                       className="h-10 border-border"
+                     />
+                   </div>
+                 </div>
+               ))}
+               
+               {getParsedJSON('about', 'about_stats', { enabled: true, stats: [] }).stats?.length === 0 && (
+                 <p className="text-sm text-muted-foreground text-center py-4">No statistics added yet.</p>
+               )}
+            </div>
+          </div>
         </TabsContent>
       </Tabs>
     </div>
