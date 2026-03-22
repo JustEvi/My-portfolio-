@@ -96,8 +96,10 @@ export default function AdminPagesPage() {
       // Upsert all modified content
       const itemsToUpdate = Object.values(content).filter(item => item.content !== undefined || item.image_url !== undefined).map(item => {
         const { id, updated_at, ...rest } = item;
-        // If it has an ID it's an update, otherwise it's a new insert
-        return id ? { id, ...rest, updated_at: new Date().toISOString() } : { ...rest, updated_at: new Date().toISOString() };
+        // If it has an ID it's an update, otherwise it's a new insert, generate a UUID
+        return id 
+          ? { id, ...rest, updated_at: new Date().toISOString() } 
+          : { id: crypto.randomUUID(), ...rest, updated_at: new Date().toISOString() };
       });
 
       if (itemsToUpdate.length === 0) return;

@@ -44,6 +44,8 @@ export default async function PortfolioDetailPage({ slug }: { slug: string }) {
 
   const toolsJoined = project.tools && Array.isArray(project.tools) ? project.tools.join(', ') : 'N/A';
 
+  const showCover = project.cover_image_url && !project.cover_image_url.endsWith('#hidden');
+  const cleanCoverUrl = project.cover_image_url ? project.cover_image_url.split('#')[0] : null;
 
   return (
     <main className="w-full">
@@ -86,10 +88,10 @@ export default async function PortfolioDetailPage({ slug }: { slug: string }) {
         </div>
         
         <div className="mb-24 animate-in fade-in duration-1000 delay-300">
-          {project.cover_image_url && (
+          {showCover && cleanCoverUrl && (
             <div className="w-full mb-12 md:mb-24 rounded-sm overflow-hidden flex justify-center bg-muted/20">
               <Image
-                src={project.cover_image_url}
+                src={cleanCoverUrl}
                 alt={project.name}
                 width={1920}
                 height={1080}

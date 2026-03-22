@@ -91,7 +91,7 @@ const PortfolioPage = () => {
                 <div className="relative h-[400px] md:h-[65vh] w-full mb-6 overflow-hidden bg-muted">
                   {project.cover_image_url ? (
                     <Image
-                      src={project.cover_image_url}
+                      src={project.cover_image_url.split('#')[0]}
                       alt={project.name}
                       fill
                       className="object-cover transition-transform duration-1000 group-hover:scale-105"

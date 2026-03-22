@@ -24,6 +24,7 @@ export default function AdminNewProjectPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [coverImage, setCoverImage] = useState<{url: string, public_id: string} | null>(null);
+  const [showCoverImage, setShowCoverImage] = useState(true);
   const [published, setPublished] = useState(false);
   const [category, setCategory] = useState("Brand Identity");
   const [categories, setCategories] = useState<{name: string}[]>([]);
@@ -59,6 +60,8 @@ export default function AdminNewProjectPage() {
     try {
       const supabase = createClient();
       
+      const finalCoverUrl = coverImage?.url ? (showCoverImage ? coverImage.url : `${coverImage.url}#hidden`) : null;
+
       const { data, error } = await supabase
         .from('projects')
         .insert({
@@ -66,7 +69,7 @@ export default function AdminNewProjectPage() {
           name,
           category,
           short_description,
-          cover_image_url: coverImage?.url || null,
+          cover_image_url: finalCoverUrl,
           cover_image_public_id: coverImage?.public_id || null,
           tools,
           project_link,
@@ -197,7 +200,17 @@ export default function AdminNewProjectPage() {
           <h2 className="font-serif text-2xl text-foreground border-b border-border pb-4">Media & Content</h2>
           
           <div className="space-y-4">
-            <Label className="text-xs uppercase tracking-widest text-muted-foreground">Cover Image</Label>
+            <div className="flex justify-between items-center">
+              <Label className="text-xs uppercase tracking-widest text-muted-foreground">Cover Image</Label>
+              <div className="flex items-center gap-2">
+                <Switch 
+                  id="showCover" 
+                  checked={showCoverImage} 
+                  onCheckedChange={setShowCoverImage} 
+                />
+                <Label htmlFor="showCover" className="text-[10px] uppercase tracking-widest text-muted-foreground cursor-pointer">Show on Details Page</Label>
+              </div>
+            </div>
             <FileUpload 
               label="Upload Cover Image"
               defaultValue={coverImage?.url || undefined}
