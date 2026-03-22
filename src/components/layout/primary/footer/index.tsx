@@ -36,7 +36,9 @@ export default function Footer({ settings }: { settings: SiteSettings | null }) 
 
       <div className="container mx-auto max-w-7xl border-t border-white/5 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
         <p className="text-[0.72rem] text-white/25">© {new Date().getFullYear()} {settings?.full_name || 'Evie Adebayo'}. All rights reserved.</p>
-        <p className="text-[0.68rem] text-white/20">Built with Next.js &middot; Supabase &middot; shadcn/ui</p>
+        <p className="text-[0.68rem] text-white/20">
+          Built by <a href="https://x.com/EmmanuelZeddy" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">EmmanuelZeddy</a>
+        </p>
       </div>
     </footer>
   );
